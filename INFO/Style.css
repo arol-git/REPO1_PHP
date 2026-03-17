@@ -1,0 +1,87 @@
+*,::before,::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #29278b;
+  display: grid;
+  align-items: center;
+  height: 100vh;
+  min-height: 100vh;
+  place-items: center;
+  padding: 0 1rem;
+
+
+}
+
+.contenaire{
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  justify-content: center;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenaire h1 {
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #29278b;
+  font-weight: 900;
+}
+
+form{
+  width: 100%;
+}
+
+
+form input,form textarea{
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  border-bottom: 2px solid #29278b;
+  background:none;
+  color: #333;
+  font-size: 16px;
+  outline: none;
+  
+}
+
+form input:focus, form textarea:focus, button:focus{
+  border-bottom: #a71c1c solid 1px;
+}
+
+form textarea{
+  height: 150px;
+  resize: none;
+
+}
+
+form input[type="submit"]{
+  background-color: #29278b;
+  color: #fff;
+  border: none;
+  border-radius: 10pc;
+  cursor: pointer;
+  background: crimson;
+  transition: background 0.3s ease-in-out;
+  
+}
+
+form input[type="submit"]:hover{
+  background: #29278b
+}
