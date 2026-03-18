@@ -1,0 +1,123 @@
+html{
+    scroll-behavior: smooth;
+    background-color: aquamarine;
+    color: white;
+}
+nav {
+    overflow: hidden;
+    background-color: hsl(205, 70%, 51%);
+    position: fixed;
+    width: 100%;
+    opacity: 0.9;
+
+}
+#navBar li{
+    list-style: none;
+}
+header li a {
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    padding: 0px 16px;
+    
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+#navBar{
+    display: flex;
+    float: right;
+}
+#logo {
+    font-family: 'Dancing Script', 'cursive';
+    font-weight: bold;
+    height: 300px;
+    border-radius: 50%;
+    margin: 100px;
+    box-shadow: 4px 4px 4px 0px white;
+}
+#acceuil {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 10% 0%;
+    text-shadow: white 0px 0px 20px;
+    
+    
+}
+body {
+    margin: 0;
+    font-family: 'Advent Pro', sans-serif;
+    background-color: hsl(260, 90%, 4%);
+}
+form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: hsl(205, 70%, 51%);
+    color: white;
+    width: 100%;
+}
+input, textarea ,button{
+    width: 70%;
+    padding: 15px 10px;
+    margin: 1px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.0em;
+    font-family: 'Advent Pro', sans-serif;
+}
+button{
+    background-color: hsl(205, 70%, 51%);
+    color: white;
+    cursor: pointer;
+}
+button:hover {
+    background-color: hsl(0, 96%, 49%);
+    cursor: pointer;
+    color: honeydew;
+    transition: 0.3s ease-in-out;
+}
+#icons a {
+    display: inline-block;
+    padding: 0 15px;
+    font-size: 1.3em;
+    font-size: 2em;
+    
+}
+#texteAccueil {
+    border-color: rgb(255, 255, 255);
+    border-radius: 15%;
+    border-width: 2px;
+    border-style: solid;
+    padding: 2% 2%;
+    text-align: center;
+    box-shadow: 4px 4px 4px 0px white;
+}
+
+#presentation, #competences {
+    justify-content: space-around;
+    align-items: center;
+    margin: 100px 0px;
+    border-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    border-width: 2px;
+    border-style: solid;
+    padding: 2% 2%;
+    text-align: center;
+    margin: 5% 10%;
+    box-shadow: 4px 4px 4px 0px white;
+}
+#competences li{
+    text-align: left;
+    margin: 1% 0px;
+
+}
