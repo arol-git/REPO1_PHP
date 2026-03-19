@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="Style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-    <body>
+<link rel="stylesheet" href="Style.css">
+    
+
+    
 
         <div class="contenaire">
 
-            <h1>Me contacter</h1>
+            <h1 id="contact">Me contacter</h1>
         
             <form action="contact.php" method="GET" enctype="multipart/form-data" class="formulaire">
                 <label for="name">Name</label>
@@ -30,5 +25,4 @@
 
         </div>
         
-    </body>
-</html>
+    

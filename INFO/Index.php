@@ -1,12 +1,14 @@
 <!DOCTYPE html> 
 <html lang="fr">
-
+<head>
         <meta chaset="UTF-8">
 
     <title>PORTFOLIO AROL</title>
-    <link rel="Stylesheet" href="Style.css">
-    <link rel="Stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-    <head>
+    <link rel="Stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
 
 
     </head>
@@ -41,31 +43,29 @@
                 <ul>
                     <li>HTML5 & CSS3😎</li>
                     <li>JavaScript</li>
-                    <li>ReactJS</li>
-                    <li>NodeJS</li>
+                    <li>Python</li>
+                    <li>PHP</li>
                     <li>JavaScript</li>
-                    <li>Flutter</li>
-                    <li>Dart</li>
+                    <li>c</li>
+                    <li>Java</li>
                 </ul>
             </div>
         </section>
+        
 
-        <footer>
-            <h2 id="contact">Me contacter</h2>
-            <form action="">
-                <input placeholder="Nom" type="text">
-                <input placeholder="Email" type="email">
-                <textarea placeholder="Votre message ici.."></textarea>
-                <button type="button">Envoyer</button>
-            </form>
+        <?php require_once(__DIR__ . '/info.php'); ?>
+        
+        
+        <footer id=contact>
+
             <div>
                 <span>&copy; 2026 DATALAB-TECH. Tous droits réservés.</span>
             </div>
             <div id="icons">
-                <a href="www.whatsapp.com"><i class="fa fa-whatsapp"></i></a>
-                <a href="www.facebook.com"><i class="fa fa-facebook"></i></a>
-                <a href="www.twitter.com"><i class="fa fa-twitter"></i></a>
-                <a href="www.instagram.com"><i class="fa fa-instagram"></i></a>
+                <a href="https://www.whatsapp.com"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.twitter.com"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
             </div>
         </footer>
     </body>

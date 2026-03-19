@@ -1,22 +1,3 @@
-*,::before,::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-  background-color: #29278b;
-  display: grid;
-  align-items: center;
-  height: 100vh;
-  min-height: 100vh;
-  place-items: center;
-  padding: 0 1rem;
-
-
-}
-
 .contenaire{
   background-color: #fff;
   padding: 2rem;
@@ -28,6 +9,7 @@ body {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  
 }
 
 .contenaire h1 {
