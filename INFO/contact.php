@@ -1,22 +1,30 @@
-<?php
-$getData = $_GET;
+<link rel="stylesheet" href="contact.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-if (!isset($getData['email']) || !isset($getData['message']))
-{
-    echo('Il faut un email et un message pour soumettre le formulaire.');
+
+<?php
+$postData = $_POST;
+
+if (!isset($postData['email']) || !isset($postData['message']) || !isset($postData['name'])) {
+    echo('Il faut un email, un message et un nom pour soumettre le formulaire.');
     // Arrête l'exécution de ce fichier par PHP
     return;
 }
-if (!filter_var($getData['email'], FILTER_VALIDATE_EMAIL)) {
+if (!filter_var($postData['email'], FILTER_VALIDATE_EMAIL)) {
     echo('L\'email doit être valide pour soumettre le formulaire.');
     return;
 }
-if (empty($getData['message']) || trim($getData['message']) === '') {
+if (empty($postData['message']) || trim($postData['message']) === '') {
     echo('Le message ne peut pas être vide pour soumettre le formulaire.');
     return;
 }
-?>  
-<?php
+if (empty($postData['name']) || trim($postData['name']) === '') {
+    echo('Le nom ne peut pas être vide pour soumettre le formulaire.');
+    return;
+}
+
 // Testons si le fichier a bien été envoyé et s'il n'y a pas des erreurs
 if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] === 0) {
     
@@ -43,30 +51,23 @@ if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] === 0) {
     }
     move_uploaded_file($_FILES['screenshot']['tmp_name'], $path . basename($_FILES['screenshot']['name']));
 }
+
+
 ?>
 
-<?php
-$getData = $_GET;
+<?php require_once(__DIR__ . '/header.php'); ?>
 
-if (
-    !isset($getData['name'])
-    || !isset($getData['email'])
-    || !filter_var($getData['email'], FILTER_VALIDATE_EMAIL)
-    || empty($getData['message'])
-    || trim($getData['message']) === ''
-) {
-    echo('Il faut un email et un message valides pour soumettre le formulaire.');
-    return;
-}
-?>
-<h1>Message bien reçu !</h1>
-        
-<div class="card">
-    
-    <div class="card-body">
-        <h5 class="card-title">Rappel de vos informations</h5>
-        <p class="card-text"><b>Nom</b> : <?php echo $_GET['name']; ?></p>
-        <p class="card-text"><b>Email</b> : <?php echo $_GET['email']; ?></p>
-        <p class="card-text"><b>Message</b> : <?php echo $_GET['message']; ?></p>
+<div class="contenaire">
+    <h1>Message bien reçu !</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Rappel de vos informations</h5>
+            <p><b>Nom</b> : <?php echo $_POST['name']; ?></p>
+            <p><b>Email</b> : <?php echo $_POST['email']; ?></p>
+            <p><b>Message</b> : <?php echo $_POST['message']; ?></p>
+        </div>
     </div>
 </div>
+
+<?php require_once(__DIR__ . '/footer.php'); ?>

@@ -1,0 +1,11 @@
+.contenaire {
+  
+  width: 100%;
+  margin: 0px auto; /* 🔥 centre horizontalement */
+  text-align: center;
+  color: white;
+  font-family: 'Advent Pro', sans-serif;
+  background-color: hsl(260, 90%, 4%);
+  padding: 3rem;
+  border-radius: 0.5rem;
+}

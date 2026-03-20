@@ -7,7 +7,7 @@
 
             <h1 id="contact">Me contacter</h1>
         
-            <form action="contact.php" method="GET" enctype="multipart/form-data" class="formulaire">
+            <form action="contact.php" method="POST" enctype="multipart/form-data" class="formulaire">
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" placeholder="Enter your name"><br>
 
@@ -15,7 +15,7 @@
                 <input type="email" name="email" id="email" placeholder="Enter your email"><br>
 
                 <label for="message">Message</label>
-                <textarea name="message" id="message" placeholder="Enter your message"></textarea><br>
+                <textarea name="message" id="message" placeholder="Enter your message"></textarea><b>
 
                 <label for="screenshot" class="form-label">Votre capture d'écran</label>
                 <input type="file" class="form-control" id="screenshot" name="screenshot" />
