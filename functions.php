@@ -21,6 +21,12 @@ function isValidRecipe(array $recipe): bool
 }
 
 
+function redirectToUrl(string $url): never
+{
+    header("Location: {$url}");
+    exit();
+}
+
 function getRecipes(array $recipes): array
 {
     $valid_recipes = [];
