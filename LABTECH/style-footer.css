@@ -1,0 +1,207 @@
+/* ==================== FOOTER STYLES ==================== */
+.footer {
+    background: var(--bg-secondary);
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 2rem 1rem;
+}
+
+/* Newsletter */
+.newsletter-section {
+    background: var(--bg-hover);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.newsletter-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.newsletter-content p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.newsletter-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.newsletter-input-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.newsletter-input-group input {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+}
+
+.newsletter-input-group input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+}
+
+.newsletter-btn {
+    padding: 0.7rem 1.5rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all var(--transition-normal);
+}
+
+.newsletter-btn:hover {
+    transform: scale(1.02);
+}
+
+.newsletter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.newsletter-checkbox input {
+    cursor: pointer;
+}
+
+/* Footer Main */
+.footer-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+}
+
+.footer-logo .logo-text {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-description {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.social-link {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-hover);
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+}
+
+.social-link:hover {
+    background: var(--accent-primary);
+    transform: translateY(-3px);
+}
+
+.footer-column h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+    color: var(--accent-primary);
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all var(--transition-normal);
+}
+
+.footer-links a:hover {
+    color: var(--accent-primary);
+    padding-left: 5px;
+}
+
+.payment-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.payment-icons span {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    background: var(--bg-hover);
+    border-radius: 50px;
+}
+
+/* Copyright */
+.copyright {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.copyright p {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer-container { padding: 1.5rem 1rem; }
+    .newsletter-section { padding: 1rem; }
+    .footer-main { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .payment-icons { gap: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+    .footer-main { grid-template-columns: 1fr; text-align: center; }
+    .footer-column h4::after { left: 50%; transform: translateX(-50%); }
+    .footer-links li { justify-content: center; }
+    .social-links { justify-content: center; }
+    .contact-item { justify-content: center; }
+}
