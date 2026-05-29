@@ -1,11 +1,24 @@
 <?php
-// Connexion à la base (déplacée en haut pour éviter les répétitions)
-$pdo = new PDO('mysql:host=localhost;dbname=contact_form;charset=utf8', 'root', '');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Active les exceptions pour les erreurs
+try {
+    $pdo = new PDO('mysql:host=localhost;charset=utf8mb4', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS contact_form CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+    $pdo->exec("USE contact_form;");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS messages (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        message TEXT NOT NULL,
+        screenshot VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+} catch (PDOException $e) {
+    echo "Erreur de connexion ou création de la base : " . $e->getMessage();
+    return;
+}
 
 $postData = $_POST;
 
-// Validations (inchangées)
 if (!isset($postData['email']) || !isset($postData['message']) || !isset($postData['name'])) {
     echo('Il faut un email, un message et un nom pour soumettre le formulaire.');
     return;
@@ -23,7 +36,6 @@ if (empty($postData['name']) || trim($postData['name']) === '') {
     return;
 }
 
-// Gestion du fichier (inchangée)
 $screenshotName = null;
 if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] === 0) {
     if ($_FILES['screenshot']['size'] > 1000000) {
@@ -46,7 +58,6 @@ if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] === 0) {
     move_uploaded_file($_FILES['screenshot']['tmp_name'], $path . $screenshotName);
 }
 
-// Insertion en base (déplacée ici, après validations)
 try {
     $sql = "INSERT INTO messages (name, email, message, screenshot) VALUES (?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
@@ -60,26 +71,39 @@ try {
     echo "Erreur lors de l'insertion en base : " . $e->getMessage();
     return;
 }
-
-// Affichage du succès (inchangé)
 ?>
-<link rel="stylesheet" href="contact.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Reçu - DATALAB-TECH</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <?php require_once(__DIR__ . '/header.php'); ?>
 
-<?php require_once(__DIR__ . '/header.php'); ?>
-
-<div class="contenaire">
-    <h1>Message bien reçu !</h1>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Rappel de vos informations</h5>
-            <p><b>Nom</b> : <?php echo htmlspecialchars($postData['name']); ?></p>
-            <p><b>Email</b> : <?php echo htmlspecialchars($postData['email']); ?></p>
-            <p><b>Message</b> : <?php echo htmlspecialchars($postData['message']); ?></p>
+    <main style="min-height: 70vh; display: flex; align-items: center;">
+        <div class="container" style="text-align: center;">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                <h1 style="color: var(--accent-primary); margin-bottom: 1rem;">Message bien reçu !</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">Merci d'avoir pris le temps de me contacter. Je vous répondrai dès que possible.</p>
+                
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 2rem; border-radius: 16px; text-align: left; margin-bottom: 2rem;">
+                    <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Récapitulatif de votre message :</h3>
+                    <p><strong style="color: var(--accent-primary);">Nom :</strong> <?php echo htmlspecialchars($postData['name']); ?></p>
+                    <p><strong style="color: var(--accent-primary);">Email :</strong> <?php echo htmlspecialchars($postData['email']); ?></p>
+                    <p><strong style="color: var(--accent-primary);">Message :</strong><br><?php echo nl2br(htmlspecialchars($postData['message'])); ?></p>
+                </div>
+                
+                <a href="Index.php" class="btn-primary" style="display: inline-block;">← Retour à l'accueil</a>
+            </div>
         </div>
-    </div>
-</div>
+    </main>
 
-<?php require_once(__DIR__ . '/footer.php'); ?>
+    <?php require_once(__DIR__ . '/footer.php'); ?>
+</body>
+</html>

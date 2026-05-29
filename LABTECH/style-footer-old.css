@@ -120,6 +120,7 @@
 .social-links {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .social-link {
@@ -166,10 +167,37 @@
     padding-left: 5px;
 }
 
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.contact-item a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.contact-item a:hover {
+    color: var(--accent-primary);
+}
+
+/* Payment Methods */
+.payment-methods {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}
+
 .payment-icons {
     display: flex;
+    justify-content: center;
+    gap: 1rem;
     flex-wrap: wrap;
-    gap: 0.5rem;
 }
 
 .payment-icons span {

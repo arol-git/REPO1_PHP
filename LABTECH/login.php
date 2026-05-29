@@ -32,27 +32,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - Lab-Store</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Connexion - DATALAB-TECH</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.php" class="logo">⚡ Lab-Store</a>
-            <div class="nav-links">
-                <a href="index.php">Accueil</a>
-                <a href="shop.php">Boutique</a>
-                <a href="cart.php" class="cart-link">
-                    🛒 Panier
-                    <span id="cart-count" class="cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </nav>
+    <?php require_once 'navbar.php'; ?>
 
     <main>
         <div class="login-container">
-            <h2>Connexion Admin</h2>
+            <h2>🔐 Connexion</h2>
             
             <?php if($error): ?>
                 <div class="notification error"><?php echo $error; ?></div>
@@ -61,23 +50,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form method="POST">
                 <div class="form-group">
                     <label>Nom d'utilisateur</label>
-                    <input type="text" name="username" required>
+                    <input type="text" name="username" required placeholder="admin">
                 </div>
                 
                 <div class="form-group">
                     <label>Mot de passe</label>
-                    <input type="password" name="password" required>
+                    <input type="password" name="password" required placeholder="••••••">
                 </div>
                 
-                <button type="submit" class="submit-btn">Se connecter</button>
+                <button type="submit" class="submit-btn" style="width:100%">Se connecter</button>
             </form>
             
-            <p style="text-align: center; margin-top: 1rem;">
-                Admin par défaut: admin / password
+            <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+                👤 Admin: <strong>admin</strong> / 🔑 <strong>admin123</strong>
             </p>
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <?php require_once 'footer.php'; ?>
 </body>
 </html>

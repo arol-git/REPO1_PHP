@@ -108,6 +108,20 @@
     scrollbar-width: thin;
 }
 
+.nav-categories::-webkit-scrollbar {
+    height: 3px;
+}
+
+.nav-categories::-webkit-scrollbar-track {
+    background: var(--bg-input);
+    border-radius: 3px;
+}
+
+.nav-categories::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 3px;
+}
+
 .categories-list {
     display: flex;
     gap: 1.2rem;

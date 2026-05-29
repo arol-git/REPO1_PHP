@@ -6,8 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Centre d'aide - DATALAB-TECH</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style-main.css">
+    <link rel="stylesheet" href="style-navbar.css">
+    <link rel="stylesheet" href="style-footer.css">
 </head>
 <body>
     <?php require_once 'navbar.php'; ?>
@@ -65,10 +66,16 @@
                     <h3>Que faire en cas de produit défectueux ?</h3>
                     <p>Contactez notre service client qui vous guidera pour un échange ou remboursement.</p>
                 </div>
+                
+                <div class="faq-item">
+                    <h3>Les produits sont-ils authentiques ?</h3>
+                    <p>Oui, tous nos produits sont 100% authentiques avec garantie constructeur.</p>
+                </div>
             </div>
         </div>
     </main>
 
     <?php require_once 'footer.php'; ?>
+    <script src="script.js"></script>
 </body>
 </html>

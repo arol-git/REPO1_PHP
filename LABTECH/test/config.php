@@ -47,38 +47,4 @@ function getStockText($stock) {
     if ($stock > 0) return '⚠️ Stock limité';
     return '❌ Rupture de stock';
 }
-
-// Fonction pour vérifier si un produit est nouveau (moins de 30 jours)
-function isNewProduct($created_at) {
-    if(empty($created_at)) return false;
-    $date = new DateTime($created_at);
-    $now = new DateTime();
-    $diff = $date->diff($now);
-    return $diff->days < 30;
-}
-
-// Fonction pour obtenir le badge d'un produit
-function getProductBadge($created_at, $featured = false) {
-    $badges = [];
-    
-    if(isNewProduct($created_at)) {
-        $badges[] = '<span class="badge badge-new">✨ Nouveau</span>';
-    }
-    if($featured) {
-        $badges[] = '<span class="badge badge-hot">🔥 Top vente</span>';
-    }
-    
-    return implode('', $badges);
-}
-
-
-
-// Fonction pour obtenir le nombre de jours depuis l'ajout
-function getDaysSinceAdded($created_at) {
-    if(empty($created_at)) return 0;
-    $date = new DateTime($created_at);
-    $now = new DateTime();
-    $diff = $date->diff($now);
-    return $diff->days;
-}
 ?>

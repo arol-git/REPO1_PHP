@@ -6,17 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Panier - DATALAB-TECH</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style-main.css">
+    <link rel="stylesheet" href="style-navbar.css">
+    <link rel="stylesheet" href="style-footer.css">
 </head>
-<body data-user-logged-in="<?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>">
+<body>
     <?php require_once 'navbar.php'; ?>
 
     <main>
         <div class="cart-container">
             <h1>Mon Panier</h1>
-            <div id="cartItems"></div>
-            <div id="cartTotal"></div>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
         </div>
     </main>
 
@@ -25,11 +26,11 @@
     <script>
         async function loadCart() {
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const cartContainer = document.getElementById('cartItems');
-            const totalContainer = document.getElementById('cartTotal');
+            const cartContainer = document.getElementById('cart-items');
+            const totalContainer = document.getElementById('cart-total');
             
             if(cart.length === 0) {
-                cartContainer.innerHTML = '<div class="cart-empty"><span>🛒</span><p>Votre panier est vide</p><a href="shop.php" class="btn-primary" style="margin-top:1rem;display:inline-block;">Découvrir la boutique</a></div>';
+                cartContainer.innerHTML = '<div class="cart-empty"><h3>🛒 Votre panier est vide</h3><p>Découvrez nos produits et faites votre sélection !</p><a href="shop.php" class="admin-btn" style="margin-top:1rem;display:inline-block;">Découvrir la boutique</a></div>';
                 totalContainer.innerHTML = '';
                 return;
             }
@@ -45,13 +46,13 @@
                 
                 html += `
                     <div class="cart-item" data-id="${product.id}">
-                        <img src="uploads/${product.image}" alt="${product.name}" class="cart-item-img">
-                        <div class="cart-item-info">
-                            <h4 class="cart-item-title">${product.name}</h4>
+                        <img src="uploads/${product.image}" alt="${product.name}">
+                        <div>
+                            <strong>${product.name}</strong>
                         </div>
-                        <div style="display:flex; gap:0.5rem; align-items:center;">
-                            <label>Qté:</label>
-                            <input type="number" value="${item.quantity}" min="1" max="${product.stock}" class="cart-quantity" data-id="${product.id}" style="width:60px; padding:0.3rem;">
+                        <div>
+                            <label>Quantité: </label>
+                            <input type="number" value="${item.quantity}" min="1" max="${product.stock}" class="cart-quantity" data-id="${product.id}">
                         </div>
                         <div>
                             <strong>${(subtotal * 655.96).toLocaleString('fr-FR')} FCFA</strong>
@@ -62,9 +63,9 @@
             }
             
             html += `
-                <div class="cart-summary" style="margin-top:1.5rem; padding:1rem; background:var(--bg-card); border-radius:12px;">
+                <div class="cart-summary">
                     <h3>Total: ${(total * 655.96).toLocaleString('fr-FR')} FCFA</h3>
-                    <button id="checkoutBtn" class="btn-primary" style="margin-top:1rem;">✅ Commander</button>
+                    <button id="checkout-btn" class="submit-btn">✅ Procéder au paiement</button>
                 </div>
             `;
             
@@ -78,7 +79,7 @@
                 btn.addEventListener('click', removeItem);
             });
             
-            document.getElementById('checkoutBtn')?.addEventListener('click', checkout);
+            document.getElementById('checkout-btn')?.addEventListener('click', checkout);
         }
         
         async function updateQuantity(e) {
@@ -110,13 +111,13 @@
                 window.location.href = 'login.php?redirect=cart.php';
                 return;
             }
-            showNotification('Fonctionnalité de paiement bientôt disponible', 'success');
+            showNotification('Fonctionnalité de paiement bientôt disponible', 'info');
         }
         
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
             const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const cartCountElement = document.getElementById('cartCount');
+            const cartCountElement = document.getElementById('cart-count');
             if(cartCountElement) cartCountElement.textContent = count;
         }
         

@@ -4,90 +4,112 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 ?>
 
-<link rel="stylesheet" href="style-navbar.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 
-<nav class="navbar">
-    <div class="nav-container">
-        <div class="nav-top">
-            <a href="index.php" class="logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">DATALAB-TECH</span>
-            </a>
-            <div class="nav-right">
-                <button id="theme-toggle" class="theme-toggle" title="Changer de thème">
+<header class="header">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.php">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">DATALAB-TECH</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="index.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>">Accueil</a></li>
+                    <li><a href="shop.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'shop.php' ? 'active' : ''; ?>">Boutique</a></li>
+                    <li><a href="categories.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'categories.php' ? 'active' : ''; ?>">Catégories</a></li>
+                    <li><a href="help.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'help.php' ? 'active' : ''; ?>">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" title="Changer de thème">
                     <span class="theme-icon">🌙</span>
                 </button>
-                <a href="cart.php" class="cart-link">
-                    🛒 <span>Panier</span>
-                    <span id="cart-count" class="cart-count">0</span>
-                </a>
+                <button class="search-btn" id="searchBtn">
+                    <a href="search.php" class="search-btn" id="searchBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </a>
+                </button>
+                <div class="cart-icon" id="cartIcon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
                 <?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'): ?>
-                    <a href="admin-dashboard.php">👑 Admin</a>
-                    <a href="logout.php">🚪 Déconnexion</a>
+                    <a href="admin-dashboard.php" class="user-btn" style="text-decoration:none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </a>
+                    <a href="logout.php" style="color: var(--text-primary); text-decoration:none;">🚪</a>
                 <?php elseif(isset($_SESSION['user'])): ?>
-                    <a href="logout.php">🚪 Déconnexion</a>
+                    <a href="logout.php" class="user-btn" style="text-decoration:none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </a>
                 <?php else: ?>
-                    <a href="login.php">🔑 Connexion</a>
+                    <a href="login.php" class="user-btn" style="text-decoration:none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </a>
                 <?php endif; ?>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
-        
-        <div class="nav-categories">
-            <ul class="categories-list">
-                <li><a href="shop.php?category=offres" class="category-link <?php echo (isset($_GET['category']) && $_GET['category'] == 'offres') ? 'active' : ''; ?>"><span class="category-icon">🔥</span><span>Offres quotidiennes</span></a></li>
-                <li><a href="shop.php?category=audio" class="category-link <?php echo (isset($_GET['category']) && $_GET['category'] == 'audio') ? 'active' : ''; ?>"><span class="category-icon">🎧</span><span>Audio</span></a></li>
-                <li><a href="shop.php?category=power" class="category-link <?php echo (isset($_GET['category']) && $_GET['category'] == 'power') ? 'active' : ''; ?>"><span class="category-icon">⚡</span><span>Power</span></a></li>
-                <li><a href="shop.php?category=watch" class="category-link <?php echo (isset($_GET['category']) && $_GET['category'] == 'watch') ? 'active' : ''; ?>"><span class="category-icon">⌚</span><span>Montre et bureau</span></a></li>
-                <li><a href="shop.php?category=personal" class="category-link <?php echo (isset($_GET['category']) && $_GET['category'] == 'personal') ? 'active' : ''; ?>"><span class="category-icon">💆</span><span>Soins personnels</span></a></li>
-                <li><a href="shop.php?category=appliances" class="category-link <?php echo (isset($_GET['category']) && $_GET['category'] == 'appliances') ? 'active' : ''; ?>"><span class="category-icon">🏠</span><span>Appareils électroménagers</span></a></li>
-                <li><a href="shop.php?category=new" class="category-link <?php echo (isset($_GET['category']) && $_GET['category'] == 'new') ? 'active' : ''; ?>"><span class="category-icon">✨</span><span>Nouveautés & Tendances</span></a></li>
-                <li><a href="help.php" class="category-link <?php echo basename($_SERVER['PHP_SELF']) == 'help.php' ? 'active' : ''; ?>"><span class="category-icon">❓</span><span>Centre d'aide</span></a></li>
-            </ul>
+    </nav>
+    
+    <!-- Search Bar -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <form action="search.php" method="GET" style="width: 100%;">
+                <input type="text" name="q" placeholder="Rechercher un produit..." id="searchInput" autocomplete="off">
+                <button type="submit" class="search-submit" style="position: absolute; right: 50px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-primary); cursor: pointer;">🔍</button>
+                <button type="button" class="close-search" id="closeSearch">✕</button>
+            </form>
         </div>
     </div>
-</nav>
+</header>
 
-<script>
-// Gestion du thème
-class ThemeManager {
-    constructor() {
-        this.themeToggle = document.getElementById('theme-toggle');
-        this.currentTheme = localStorage.getItem('theme') || 'dark';
-        this.init();
-    }
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h3>Mon Panier</h3>
+        <button class="close-cart" id="closeCart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+        <div class="cart-empty">
+            <span>🛒</span>
+            <p>Votre panier est vide</p>
+        </div>
+    </div>
+    <div class="cart-footer">
+        <div class="cart-total">
+            <span>Total</span>
+            <span id="cartTotal">0 FCFA</span>
+        </div>
+        <button class="checkout-btn" id="checkoutBtn">Commander</button>
+    </div>
+</div>
 
-    init() {
-        this.applyTheme(this.currentTheme);
-        if (this.themeToggle) {
-            this.themeToggle.addEventListener('click', () => this.toggleTheme());
-        }
-    }
+<div class="cart-overlay" id="cartOverlay"></div>
 
-    toggleTheme() {
-        this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-        this.applyTheme(this.currentTheme);
-        localStorage.setItem('theme', this.currentTheme);
-    }
-
-    applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        const icon = this.themeToggle?.querySelector('.theme-icon');
-        if (icon) {
-            icon.textContent = theme === 'dark' ? '🌙' : '☀️';
-        }
-    }
-}
-
-// Mise à jour compteur panier
-function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const cartCount = document.getElementById('cart-count');
-    if (cartCount) cartCount.textContent = count;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    new ThemeManager();
-    updateCartCount();
-});
-</script>
+<script src="js/script.js"></script>
