@@ -150,11 +150,6 @@ body {
     font-weight: 700;
 }
 
-.logo-icon {
-    font-size: 1.8rem;
-    animation: pulse 2s infinite;
-}
-
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
@@ -281,7 +276,7 @@ body {
     box-shadow: var(--shadow-hover);
 }
 
-.btn-outline {
+/*.btn-outline {
     padding: 0.8rem 2rem;
     background: transparent;
     color: var(--text-primary);
@@ -298,7 +293,7 @@ body {
     border-color: var(--accent-primary);
     color: var(--accent-primary);
     transform: scale(1.05);
-}
+} */
 
 .hero-stats {
     display: flex;

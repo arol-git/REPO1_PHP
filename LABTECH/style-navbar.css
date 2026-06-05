@@ -32,10 +32,6 @@
     text-decoration: none;
 }
 
-.logo-icon {
-    font-size: 1.8rem;
-    animation: pulse 2s infinite;
-}
 
 @keyframes pulse {
     0%, 100% { transform: scale(1); }

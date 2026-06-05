@@ -64,7 +64,7 @@
             html += `
                 <div class="cart-summary" style="margin-top:1.5rem; padding:1rem; background:var(--bg-card); border-radius:12px;">
                     <h3>Total: ${(total * 655.96).toLocaleString('fr-FR')} FCFA</h3>
-                    <button id="checkoutBtn" class="btn-primary" style="margin-top:1rem;">✅ Commander</button>
+                    <button class="btn-primary checkout-btn" style="margin-top:1rem;">✅ Commander</button>
                 </div>
             `;
             
@@ -78,7 +78,12 @@
                 btn.addEventListener('click', removeItem);
             });
             
-            document.getElementById('checkoutBtn')?.addEventListener('click', checkout);
+            const checkoutButton = document.querySelector('.checkout-btn');
+            if (checkoutButton) {
+                checkoutButton.addEventListener('click', () => {
+                    window.location.href = 'checkout.php';
+                });
+            }
         }
         
         async function updateQuantity(e) {
@@ -103,14 +108,6 @@
             loadCart();
             updateCartCount();
             showNotification('Produit retiré du panier', 'success');
-        }
-        
-        function checkout() {
-            if(!<?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>) {
-                window.location.href = 'login.php?redirect=cart.php';
-                return;
-            }
-            showNotification('Fonctionnalité de paiement bientôt disponible', 'success');
         }
         
         function updateCartCount() {

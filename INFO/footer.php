@@ -3,7 +3,6 @@
         <div class="footer-grid">
             <div class="footer-logo">
                 <div>
-                    <span class="logo-icon">⚡</span>
                     <span class="logo-text" style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">DATALAB-TECH</span>
                 </div>
                 <p class="footer-description">Développeur web & mobile passionné par la création de solutions innovantes.</p>

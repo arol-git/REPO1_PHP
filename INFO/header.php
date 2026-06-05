@@ -3,7 +3,6 @@
         <div class="nav-container">
             <div class="logo">
                 <a href="Index.php">
-                    <span class="logo-icon">⚡</span>
                     <span class="logo-text">DATALAB-TECH</span>
                 </a>
             </div>

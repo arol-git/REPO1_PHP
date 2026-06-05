@@ -3,7 +3,6 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <span class="logo-icon">⚡</span>
                     <span class="logo-text">DATALAB-TECH</span>
                 </div>
                 <p class="footer-description">

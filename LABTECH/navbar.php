@@ -5,14 +5,13 @@ if (session_status() == PHP_SESSION_NONE) {
 ?>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=<?php echo filemtime(__DIR__ . '/css/style.css'); ?>">
 
 <header class="header">
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <a href="index.php">
-                    <span class="logo-icon">⚡</span>
                     <span class="logo-text">DATALAB-TECH</span>
                 </a>
             </div>
@@ -46,29 +45,6 @@ if (session_status() == PHP_SESSION_NONE) {
                     </svg>
                     <span class="cart-count" id="cartCount">0</span>
                 </div>
-                <?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'): ?>
-                    <a href="admin-dashboard.php" class="user-btn" style="text-decoration:none;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </a>
-                    <a href="logout.php" style="color: var(--text-primary); text-decoration:none;">🚪</a>
-                <?php elseif(isset($_SESSION['user'])): ?>
-                    <a href="logout.php" class="user-btn" style="text-decoration:none;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </a>
-                <?php else: ?>
-                    <a href="login.php" class="user-btn" style="text-decoration:none;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </a>
-                <?php endif; ?>
                 <div class="hamburger" id="hamburger">
                     <span></span>
                     <span></span>
@@ -77,6 +53,7 @@ if (session_status() == PHP_SESSION_NONE) {
             </div>
         </div>
     </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
     
     <!-- Search Bar -->
     <div class="search-overlay" id="searchOverlay">

@@ -26,15 +26,15 @@
                     </p>
                     <div class="hero-buttons">
                         <a href="#contact" class="btn-primary">📩 Me contacter</a>
-                        <a href="#projects" class="btn-outline">📁 Voir mes projets</a>
+                        <a href="#projects" class="btn-primary">📁 Voir mes projets</a>
                     </div>
                     <div class="hero-stats">
                         <div class="stat">
-                            <span class="stat-number">6+</span>
+                            <span class="stat-number">10+</span>
                             <span class="stat-label">Mois de formation</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-number">10+</span>
+                            <span class="stat-number">15+</span>
                             <span class="stat-label">Projets réalisés</span>
                         </div>
                         <div class="stat">
@@ -82,7 +82,7 @@
                         <p>Je m'appelle <strong class="gradient-text">Arol YEMELI</strong>, je suis développeur web et mobile junior. Passionné par la technologie depuis mon plus jeune âge, j'ai décidé de transformer cette passion en métier en rejoignant DATALAB-TECH.</p>
                         <p>Au cours de ma formation, j'ai acquis des compétences solides en développement frontend, backend et mobile. Je suis constamment à la recherche de nouveaux défis pour améliorer mes compétences.</p>
                         <div class="about-info">
-                            <div class="info-item"><i class="fas fa-map-marker-alt"></i> Douala, Cameroun</div>
+                            <div class="info-item"><i class="fas fa-map-marker-alt"></i> Yaoundé, Cameroun</div>
                             <div class="info-item"><i class="fas fa-envelope"></i> arolyemeli@gmail.com</div>
                             <div class="info-item"><i class="fas fa-phone"></i> +237 671 990 780</div>
                         </div>
@@ -145,15 +145,15 @@
                         </div>
                         <div class="skill-items">
                             <div class="skill-item">
-                                <div class="skill-info"><span>HTML5</span><span>90%</span></div>
+                                <div class="skill-info"><span>HTML5</span><span> 90%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
                             </div>
                             <div class="skill-item">
-                                <div class="skill-info"><span>CSS3</span><span>85%</span></div>
+                                <div class="skill-info"><span>CSS3</span><span> 85%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
                             </div>
                             <div class="skill-item">
-                                <div class="skill-info"><span>JavaScript</span><span>75%</span></div>
+                                <div class="skill-info"><span>JavaScript</span><span> 75%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 75%"></div></div>
                             </div>
                         </div>
@@ -165,15 +165,15 @@
                         </div>
                         <div class="skill-items">
                             <div class="skill-item">
-                                <div class="skill-info"><span>PHP</span><span>80%</span></div>
+                                <div class="skill-info"><span>PHP</span><span> 80%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 80%"></div></div>
                             </div>
                             <div class="skill-item">
-                                <div class="skill-info"><span>Python</span><span>70%</span></div>
+                                <div class="skill-info"><span>Python</span><span> 70%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 70%"></div></div>
                             </div>
                             <div class="skill-item">
-                                <div class="skill-info"><span>Java</span><span>65%</span></div>
+                                <div class="skill-info"><span>Java</span><span> 65%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 65%"></div></div>
                             </div>
                         </div>
@@ -185,11 +185,11 @@
                         </div>
                         <div class="skill-items">
                             <div class="skill-item">
-                                <div class="skill-info"><span>MySQL</span><span>85%</span></div>
+                                <div class="skill-info"><span>MySQL</span><span> 85%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
                             </div>
                             <div class="skill-item">
-                                <div class="skill-info"><span>MongoDB</span><span>60%</span></div>
+                                <div class="skill-info"><span>MongoDB</span><span> 60%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 60%"></div></div>
                             </div>
                         </div>
@@ -201,11 +201,11 @@
                         </div>
                         <div class="skill-items">
                             <div class="skill-item">
-                                <div class="skill-info"><span>Flutter</span><span>70%</span></div>
+                                <div class="skill-info"><span>Flutter</span><span> 70%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 70%"></div></div>
                             </div>
                             <div class="skill-item">
-                                <div class="skill-info"><span>React Native</span><span>65%</span></div>
+                                <div class="skill-info"><span>React Native</span><span> 65%</span></div>
                                 <div class="skill-bar"><div class="skill-progress" style="width: 65%"></div></div>
                             </div>
                         </div>

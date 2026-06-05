@@ -173,12 +173,21 @@ body {
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+}
+
+.logo a {
+    min-width: 0;
 }
 
 .nav-menu {
     flex: 1;
     display: flex;
     justify-content: center;
+}
+
+.nav-actions {
+    gap: 0.75rem;
 }
 
 .nav-links {
@@ -1495,30 +1504,85 @@ body {
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 968px) {
+    .nav-container {
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
     .nav-menu {
         position: fixed;
         top: 70px;
-        left: -100%;
-        width: 100%;
+        right: 0;
+        left: auto;
+        width: min(50%, 280px);
         height: calc(100vh - 70px);
         background: var(--bg-secondary);
-        transition: left var(--transition-normal);
-        padding: 2rem;
-        z-index: 999;
+        transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden;
+        display: none;
+        transition: transform var(--transition-normal), opacity var(--transition-normal), visibility var(--transition-normal);
+        padding: 1.2rem;
+        z-index: 10001;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.18);
+        will-change: transform, opacity;
     }
     
     .nav-menu.active {
-        left: 0;
+        display: flex;
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
     }
     
     .nav-links {
         flex-direction: column;
-        align-items: center;
-        gap: 2rem;
+        align-items: flex-start;
+        gap: 1.25rem;
     }
     
+    .nav-actions {
+        gap: 0.35rem;
+        align-items: center;
+    }
+
+    .nav-actions > .theme-toggle,
+    .nav-actions > .search-btn,
+    .nav-actions > .user-btn {
+        display: none;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+    }
+
     .hamburger {
         display: flex;
+    }
+
+    /* Overlay behind the side menu to capture outside clicks */
+    .nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0);
+        visibility: hidden;
+        opacity: 0;
+        display: none;
+        transition: opacity var(--transition-fast), visibility var(--transition-fast);
+        z-index: 10000;
+    }
+
+    .nav-overlay.active {
+        display: block;
+        background: rgba(0,0,0,0.35);
+        visibility: visible;
+        opacity: 1;
+    }
+
+    /* prevent body scroll when menu open */
+    .no-scroll {
+        overflow: hidden;
+        height: 100%;
     }
     
     .hamburger.active span:nth-child(1) {
@@ -1583,10 +1647,20 @@ body {
     .products-grid {
         grid-template-columns: 1fr;
     }
-    
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
     .footer-bottom {
         flex-direction: column;
         text-align: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .payment-methods {
+        justify-content: center;
     }
     
     .help-grid {

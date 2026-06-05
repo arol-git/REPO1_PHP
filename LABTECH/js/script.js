@@ -1,6 +1,7 @@
 // ==================== DOM ELEMENTS ====================
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
+const navOverlay = document.getElementById('navOverlay');
 const searchBtn = document.getElementById('searchBtn');
 const searchOverlay = document.getElementById('searchOverlay');
 const closeSearch = document.getElementById('closeSearch');
@@ -82,6 +83,37 @@ function saveCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartUI();
     updateAllCartButtons();
+}
+
+async function submitOrder(paymentMethod = 'Paiement à la livraison') {
+    const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    if (currentCart.length === 0) {
+        showNotification('Votre panier est vide', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch('checkout.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cart: currentCart, payment_method: paymentMethod })
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            showNotification(result.message || 'Impossible de passer la commande.', 'error');
+            return;
+        }
+
+        cart = [];
+        saveCart();
+        showNotification('✅ Commande envoyée au vendeur !', 'success');
+    } catch (error) {
+        console.error('Erreur checkout:', error);
+        showNotification('Erreur lors de l’envoi de la commande.', 'error');
+    }
 }
 
 function updateCartUI() {
@@ -626,12 +658,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     // Menu hamburger
+    const closeNavMenu = () => {
+        hamburger?.classList.remove('active');
+        navMenu?.classList.remove('active');
+        navOverlay?.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+    };
+
+    const openNavMenu = () => {
+        hamburger?.classList.add('active');
+        navMenu?.classList.add('active');
+        navOverlay?.classList.add('active');
+        document.body.classList.add('no-scroll');
+    };
+
     if (hamburger) {
         hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu?.classList.toggle('active');
+            if (navMenu?.classList.contains('active')) {
+                closeNavMenu();
+            } else {
+                openNavMenu();
+            }
         });
     }
+
+    if (navOverlay) {
+        navOverlay.addEventListener('click', () => {
+            closeNavMenu();
+        });
+    }
+
+    window.addEventListener('scroll', () => {
+        if (navMenu?.classList.contains('active')) {
+            closeNavMenu();
+        }
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeNavMenu();
+        });
+    });
     
     // Recherche overlay
     if (searchBtn) {
@@ -665,24 +732,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     
     // Checkout
-    const checkoutBtnGlobal = document.getElementById('checkoutBtn');
-    if (checkoutBtnGlobal) {
-        checkoutBtnGlobal.addEventListener('click', () => {
-            if (cart.length === 0) {
-                showNotification('Votre panier est vide', 'error');
-            } else {
-                const isLoggedIn = document.body.dataset.userLoggedIn === 'true';
-                if (!isLoggedIn) {
-                    window.location.href = 'login.php?redirect=cart.php';
-                } else {
-                    showNotification('Redirection vers la page de paiement...', 'success');
-                    setTimeout(() => {
-                        alert('Fonctionnalité de paiement à venir !');
-                    }, 1500);
-                }
-            }
-        });
-    }
+    document.body.addEventListener('click', (event) => {
+        const checkoutButton = event.target.closest('.checkout-btn');
+        if (!checkoutButton) return;
+        event.preventDefault();
+        window.location.href = 'checkout.php';
+    });
     
     console.log('✅ Initialisation terminée');
 });

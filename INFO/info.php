@@ -3,7 +3,7 @@
         <div class="contact-card">
             <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
             <h4>Localisation</h4>
-            <p>Douala, Cameroun</p>
+            <p>Yaoundé, Cameroun</p>
         </div>
         <div class="contact-card">
             <div class="contact-icon"><i class="fas fa-envelope"></i></div>
