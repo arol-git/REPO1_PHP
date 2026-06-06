@@ -17,22 +17,22 @@
             <h1>❓ Centre d'aide</h1>
             
             <div class="help-grid">
-                <div class="help-card">
+                <div class="help-card" id="shipping">
                     <h3>📦 Livraison</h3>
                     <p>Livraison gratuite à partir de 50 000 FCFA d'achat. Délai de livraison : 2-3 jours ouvrés.</p>
                 </div>
                 
-                <div class="help-card">
+                <div class="help-card" id="returns">
                     <h3>🔄 Retours</h3>
                     <p>Vous disposez de 14 jours pour retourner votre produit. Remboursement sous 48h.</p>
                 </div>
                 
-                <div class="help-card">
+                <div class="help-card" id="payment">
                     <h3>💳 Paiement</h3>
                     <p>Paiement sécurisé par carte bancaire, Orange Money, MTN Mobile Money.</p>
                 </div>
                 
-                <div class="help-card">
+                <div class="help-card" id="warranty">
                     <h3>🔧 Garantie</h3>
                     <p>Garantie 2 ans sur tous nos produits. Service après-vente réactif.</p>
                 </div>

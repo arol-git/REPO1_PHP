@@ -2,7 +2,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="Index.php">
+                <a href="index.php">
                     <span class="logo-text">DATALAB-TECH</span>
                 </a>
             </div>
@@ -12,7 +12,7 @@
                 <span></span>
             </div>
             <ul class="nav-links" id="navLinks">
-                <li><a href="Index.php" class="active">Accueil</a></li>
+                <li><a href="index.php" class="active">Accueil</a></li>
                 <li><a href="#about">À propos</a></li>
                 <li><a href="#skills">Compétences</a></li>
                 <li><a href="#projects">Projets</a></li>
@@ -81,7 +81,7 @@
         
         navItems.forEach(item => {
             item.classList.remove('active');
-            if (item.getAttribute('href') === `#${current}` || (current === 'home' && item.getAttribute('href') === 'Index.php')) {
+            if (item.getAttribute('href') === `#${current}` || (current === 'home' && item.getAttribute('href') === 'index.php')) {
                 item.classList.add('active');
             }
         });

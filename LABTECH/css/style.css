@@ -1546,10 +1546,13 @@ body {
         align-items: center;
     }
 
-    .nav-actions > .theme-toggle,
     .nav-actions > .search-btn,
     .nav-actions > .user-btn {
         display: none;
+    }
+
+    .nav-actions > .theme-toggle {
+        display: flex;
     }
 
     .logo-text {

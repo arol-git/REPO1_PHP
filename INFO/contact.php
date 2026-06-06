@@ -99,7 +99,7 @@ try {
                     <p><strong style="color: var(--accent-primary);">Message :</strong><br><?php echo nl2br(htmlspecialchars($postData['message'])); ?></p>
                 </div>
                 
-                <a href="Index.php" class="btn-primary" style="display: inline-block;">← Retour à l'accueil</a>
+                <a href="index.php" class="btn-primary" style="display: inline-block;">← Retour à l'accueil</a>
             </div>
         </div>
     </main>

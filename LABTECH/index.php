@@ -13,6 +13,7 @@ $inStockProducts = $pdo->query("SELECT * FROM products WHERE stock > 0 LIMIT 6")
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DATALAB-TECH | Accessoires Électroniques Premium</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body data-user-logged-in="<?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>">
@@ -23,7 +24,7 @@ $inStockProducts = $pdo->query("SELECT * FROM products WHERE stock > 0 LIMIT 6")
         <section class="hero">
             <div class="hero-container">
                 <div class="hero-content">
-                    <div class="hero-badge">🔥 Nouveautés 2024</div>
+                    <div class="hero-badge">🔥 Nouveautés 2026</div>
                     <h1 class="hero-title">
                         L'avenir de la<br>
                         <span class="gradient-text">tech est ici</span>

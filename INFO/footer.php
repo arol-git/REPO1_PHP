@@ -10,7 +10,7 @@
             <div class="footer-links">
                 <h4>Liens rapides</h4>
                 <ul>
-                    <li><a href="Index.php">Accueil</a></li>
+                    <li><a href="index.php">Accueil</a></li>
                     <li><a href="#about">À propos</a></li>
                     <li><a href="#skills">Compétences</a></li>
                     <li><a href="#projects">Projets</a></li>
@@ -21,9 +21,10 @@
             <div class="footer-social">
                 <h4>Suivez-moi</h4>
                 <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/arol-yemeli-4356333a8" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     <a href="https://wa.me/237671990780" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://github.com" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://github.com/arol-git" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://facebook.com/yemeli.arol" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
                     <a href="https://t.me/671990780" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
                 </div>
             </div>
