@@ -28,24 +28,10 @@ if (session_status() == PHP_SESSION_NONE) {
             
             <div class="nav-actions">
                 <button class="theme-toggle" id="theme-toggle" title="Changer de thème">
-                    <span class="theme-icon">🌙</span>
+                    <span class="theme-icon"><i class="fa-solid fa-moon fa-rotate-by fa-xl" style="color: rgb(255, 212, 59); --fa-rotate-angle: 220deg;"></i></i></span>
                 </button>
-                <button class="search-btn" id="searchBtn">
-                    <a href="search.php" class="search-btn" id="searchBtn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </a>
-                </button>
-                <div class="cart-icon" id="cartIcon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                    </svg>
-                    <span class="cart-count" id="cartCount">0</span>
-                </div>
+                <div class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></div>  <!-- la balise span permet de faire  -->
+                <div class="cart-icon" id="cartIcon"><i class="fa-solid fa-cart-shopping fa-xl"></i><span class="cart-count" id="cartCount"></span></div>
                 <div class="hamburger" id="hamburger">
                     <span></span>
                     <span></span>
@@ -56,16 +42,16 @@ if (session_status() == PHP_SESSION_NONE) {
     </nav>
     <div class="nav-overlay" id="navOverlay"></div>
     
-    <!-- Search Bar -->
+    <!-- Search Bar
     <div class="search-overlay" id="searchOverlay">
         <div class="search-container">
             <form action="search.php" method="GET" style="width: 100%;">
                 <input type="text" name="q" placeholder="Rechercher un produit..." id="searchInput" autocomplete="off">
-                <button type="submit" class="search-submit" style="position: absolute; right: 50px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-primary); cursor: pointer;">🔍</button>
+                <button type="submit" class="search-submit" style="position: absolute; right: 50px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-primary); cursor: pointer;">🔍ghjklkjhgvhj</button>
                 <button type="button" class="close-search" id="closeSearch">✕</button>
             </form>
         </div>
-    </div>
+    </div> -->
 </header>
 
 <div class="cart-sidebar" id="cartSidebar">
@@ -75,7 +61,7 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
     <div class="cart-items" id="cartItems">
         <div class="cart-empty">
-            <span>🛒</span>
+            <i class="fa-solid fa-cart-shopping fa-2xl"></i><span ></span>
             <p>Votre panier est vide</p>
         </div>
     </div>
@@ -86,7 +72,8 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
         <button class="checkout-btn" id="checkoutBtn">Commander</button>
     </div>
-</div>
+</div> 
+<?php include 'search.php'; ?>
 
 <div class="cart-overlay" id="cartOverlay"></div>
 

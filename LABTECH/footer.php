@@ -16,6 +16,8 @@
                     <a class="social-link" href="https://github.com/arol-git" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub"><i class="fab fa-github"></i></a>
                     <a class="social-link" href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                     <a class="social-link" href="https://t.me/671990780" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a class="social-link" href="http://www.youtube.com/@YemeliArol" target="_blank" rel="noopener noreferrer" title="YouTube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a class="social-link" href="http://www.tiktok.com/@YemeliArol" target="_blank" rel="noopener noreferrer" title="Tiktok" aria-label="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
             
@@ -45,10 +47,10 @@
             <div class="footer-col">
                 <h4>Contact</h4>
                 <ul>
-                    <li>📞 <a href="tel:+237697421261">+237 697 421 261</a></li>
-                    <li>💬 <a href="https://wa.me/237621074991" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-                    <li>✉️ <a href="mailto:yemeliarol04@gmail.com">yemeliarol04@gmail.com</a></li>
-                    <li>⏰ Lun-Sam: 9h-17h30</li>
+                    <li><i class="fa-solid fa-phone"></i> <a href="tel:+237697421261">+237 697 421 261</a></li>
+                    <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/237621074991" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    <li><i class="fa-solid fa-envelope"></i> <a href="mailto:yemeliarol04@gmail.com">yemeliarol04@gmail.com</a></li>
+                    <li><i class="fa-solid fa-clock"></i> Lun-Sam: 9h-17h30</li>
                 </ul>
             </div>
         </div>  <!-- Fin de footer-grid -->
@@ -56,10 +58,10 @@
         <div class="footer-bottom">
             <p>&copy; 2013-2026 DATALAB-TECH. Tous droits réservés.</p>
             <div class="payment-methods">
-                <span>💳 Visa</span>
-                <span>💳 Mastercard</span>
-                <span>📱 Orange Money</span>
-                <span>📱 MTN Mobile Money</span>
+                <span><i class="fa-brands fa-cc-visa"></i> Visa</span>
+                <span><i class="fa-brands fa-cc-mastercard"></i> Mastercard</span>
+                <span><i class="fa-brands fa-cc-orange"></i> Orange Money</span>
+                <span><i class="fa-brands fa-cc-mtn"></i> MTN Mobile Money</span>
             </div>
         </div>
     </div>  <!-- Fin de footer-container -->

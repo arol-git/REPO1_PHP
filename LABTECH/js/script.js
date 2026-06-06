@@ -45,7 +45,7 @@ class ThemeManager {
         document.documentElement.setAttribute('data-theme', theme);
         const icon = this.themeToggle?.querySelector('.theme-icon');
         if (icon) {
-            icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+            icon.innerHTML = theme === 'dark' ? '<i class="fa-solid fa-moon fa-rotate-by fa-xl" style="color: rgb(255, 212, 59); --fa-rotate-angle: 220deg;"></i>' : '<i class="fa-solid fa-sun fa-xl" style="color: rgb(255, 212, 59);"></i>';    //cette ligne 
         }
     }
 }
@@ -638,8 +638,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Panier
     if (cartIcon) {
         cartIcon.addEventListener('click', () => {
-            cartSidebar?.classList.add('open');
-            cartOverlay?.classList.add('active');
+            cartSidebar?.classList.add('open');  // cette ligne permet d'ouvrir le menu latéral du panier en ajoutant une classe "open" qui déclenche les styles CSS associés pour faire glisser le panier depuis la droite de l'écran
+            cartOverlay?.classList.add('active');  // cette ligne ajoute une superposition sombre derrière le panier pour mettre en avant le menu du panier et empêcher les interactions avec le reste de la page
         });
     }
     
@@ -702,13 +702,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Recherche overlay
     if (searchBtn) {
-        searchBtn.addEventListener('click', () => {
-            searchOverlay?.classList.add('active');
+        searchBtn.addEventListener('click', () => { // cette ligne permet d'ouvrir le menu de recherche
+            searchOverlay?.classList.add('active'); // cette ligne ajoute une classe active à la superposition de recherche pour l'afficher et permettre les interactions avec le champ de recherche
+            searchInput?.classList.add('active'); // cette ligne ajoute une classe active au champ de recherche pour le mettre en avant et permettre à l'utilisateur de commencer à taper sa recherche immédiatement
+            searchSuggestions?.classList.add('active'); // cette ligne ajoute une classe active à la boîte de suggestions de recherche pour l'afficher et montrer les suggestions basées sur ce que l'utilisateur tape dans le champ de recherche
+
         });
     }
+
     
     if (closeSearch) {
         closeSearch.addEventListener('click', () => {
+            searchInput?.classList.remove('active'); // cette ligne retire la classe active du champ de recherche pour le cacher et empêcher les interactions avec lui
+            searchSuggestions?.classList.remove('active'); // cette ligne retire la classe active de la boîte de suggestions de recherche pour la cacher et empêcher les interactions avec elle
             searchOverlay?.classList.remove('active');
         });
     }

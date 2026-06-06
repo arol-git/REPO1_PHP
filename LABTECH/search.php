@@ -259,7 +259,7 @@ foreach($categories as $cat) {
         <div class="search-page">
             <!-- Hero avec barre de recherche -->
             <div class="search-hero">
-                <h1>🔍 Que recherchez-vous ?</h1>
+                <h1><i class="fa-solid fa-magnifying-glass fa-xl"></i> Que recherchez-vous ?</h1>
                 <p>Trouvez l'accessoire parfait parmi notre catalogue</p>
                 
                 <div class="search-bar-large">
@@ -273,6 +273,7 @@ foreach($categories as $cat) {
             
             <!-- Résultats de recherche -->
             <?php if(!empty($search_query)): ?>
+               
                 <div class="results-header">
                     <h2>📋 Résultats pour "<span style="color: var(--accent-primary);"><?php echo htmlspecialchars($search_query); ?></span>"</h2>
                     <p class="results-count"><?php echo count($search_results); ?> produit(s) trouvé(s)</p>
