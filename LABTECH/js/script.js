@@ -64,13 +64,22 @@ function initOverlaySearch() {
     mainInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             const q = mainInput.value.trim();
-            if (q) window.location.href = `/search.php?q=${encodeURIComponent(q)}`;
+            if (q) window.location.href = `${window.APP_BASE}/search.php?q=${encodeURIComponent(q)}`;
         }
     });
 
     // close button inside injected fragment
     const closeBtn = document.querySelector('#searchOverlayContent .close-search');
     if (closeBtn) closeBtn.addEventListener('click', closeSearchOverlay);
+
+    // search button inside injected fragment
+    const searchButton = document.getElementById('searchButton');
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
+            const q = mainInput.value.trim();
+            if (q) window.location.href = `${window.APP_BASE}/search.php?q=${encodeURIComponent(q)}`;
+        });
+    }
 
     // backdrop click
     const backdrop = document.getElementById('searchOverlayBackdrop');
@@ -123,7 +132,7 @@ let productStock = {};
 
 async function loadProductStock() {
     try {
-        const response = await fetch('/get_all_products.php');
+        const response = await fetch(`${window.APP_BASE}/get_all_products.php`);
         const products = await response.json();
         products.forEach(product => {
             productStock[product.id] = {
@@ -161,7 +170,7 @@ async function submitOrder(paymentMethod = 'Paiement à la livraison') {
     }
 
     try {
-        const response = await fetch('/checkout.php', {
+        const response = await fetch(`${window.APP_BASE}/checkout.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -211,7 +220,7 @@ function updateCartUI() {
         
         itemsHtml += `
             <div class="cart-item" data-id="${item.id}">
-                <img src="uploads/${item.image || 'default.jpg'}" alt="${item.name}" class="cart-item-img" onerror="this.src='uploads/default.jpg'">
+                <img src="${window.APP_BASE}/uploads/${item.image || 'default.jpg'}" alt="${item.name}" class="cart-item-img" onerror="this.src='${window.APP_BASE}/uploads/default.jpg'">
                 <div class="cart-item-info">
                     <h4 class="cart-item-title">${escapeHtml(item.name)}</h4>
                     <p class="cart-item-price">${item.price.toLocaleString('fr-FR')} FCFA</p>
@@ -398,7 +407,7 @@ async function loadProductDetails() {
     if (!productId) return;
     
     try {
-        const response = await fetch(`/get_product.php?id=${productId}`);
+        const response = await fetch(`${window.APP_BASE}/get_product.php?id=${productId}`);
         const product = await response.json();
         
         if (!product) {
@@ -413,7 +422,7 @@ async function loadProductDetails() {
         if (detailContainer) {
             detailContainer.innerHTML = `
                 <div class="product-detail-image">
-                    <img src="uploads/${product.image}" alt="${escapeHtml(product.name)}" onerror="this.src='https://placehold.co/600x600/1a1a2e/00d4ff?text=Product'">
+                    <img src="${window.APP_BASE}/uploads/${product.image}" alt="${escapeHtml(product.name)}" onerror="this.src='https://placehold.co/600x600/1a1a2e/00d4ff?text=Product'">
                 </div>
                 <div class="product-detail-info">
                     <h1>${escapeHtml(product.name)}</h1>
@@ -728,17 +737,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Animations
     initScrollAnimations();
     
-    // Événements d'ajout au panier
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const id = parseInt(btn.dataset.id);
-            const name = btn.dataset.name;
-            const price = parseInt(btn.dataset.price);
-            const image = btn.dataset.image || 'default.jpg';
-            const stock = parseInt(btn.dataset.stock);
-            addToCart(id, name, price, image, stock);
-        });
+    // Événements d'ajout au panier (délégation pour gérer les éléments dynamiques)
+    document.body.addEventListener('click', (e) => {
+        const btn = e.target.closest('.add-to-cart');
+        if (!btn) return;
+        e.stopPropagation();
+        const id = parseInt(btn.dataset.id);
+        const name = btn.dataset.name;
+        const price = parseInt(btn.dataset.price);
+        const image = btn.dataset.image || 'default.jpg';
+        const stock = parseInt(btn.dataset.stock);
+        addToCart(id, name, price, image, stock);
     });
     
     // Panier
@@ -821,7 +830,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const checkoutButton = event.target.closest('.checkout-btn');
         if (!checkoutButton) return;
         event.preventDefault();
-        window.location.href = '/checkout.php';
+        window.location.href = `${window.APP_BASE}/checkout.php`;
     });
     
     console.log('✅ Initialisation terminée');
@@ -869,7 +878,7 @@ async function fetchSearchSuggestions(query) {
     }
     
     try {
-        const response = await fetch(`/search_suggestions.php?q=${encodeURIComponent(query)}`);
+        const response = await fetch(`${window.APP_BASE}/search_suggestions.php?q=${encodeURIComponent(query)}`);
         const suggestions = await response.json();
         showSearchSuggestions(suggestions);
     } catch(error) {
@@ -910,8 +919,8 @@ function showSearchSuggestions(suggestions) {
     }
     
     suggestionsBox.innerHTML = suggestions.map(product => `
-        <a href="/product.php?id=${product.id}" style="display: flex; align-items: center; gap: 10px; padding: 10px; text-decoration: none; color: var(--text-primary); border-bottom: 1px solid var(--border-color); transition: background var(--transition-fast);">
-            <img src="/uploads/${product.image}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;" onerror="this.src='https://placehold.co/40x40/1a1a2e/00d4ff?text=?'">
+        <a href="${window.APP_BASE}/product.php?id=${product.id}" style="display: flex; align-items: center; gap: 10px; padding: 10px; text-decoration: none; color: var(--text-primary); border-bottom: 1px solid var(--border-color); transition: background var(--transition-fast);">
+            <img src="${window.APP_BASE}/uploads/${product.image}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;" onerror="this.src='https://placehold.co/40x40/1a1a2e/00d4ff?text=?'">
             <div style="flex: 1;">
                 <strong>${product.name}</strong>
                 <span style="display: block; font-size: 0.75rem; color: var(--text-muted);">${product.price.toLocaleString('fr-FR')} FCFA</span>
