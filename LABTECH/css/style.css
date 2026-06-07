@@ -296,12 +296,11 @@ body {
 /* Search Overlay */
 .search-overlay {
     position: fixed;
-    top: 0;
+    inset: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(10px);
+    background: transparent; /* keep container transparent, use backdrop for blur */
     z-index: 2000;
     display: flex;
     align-items: center;
@@ -319,7 +318,11 @@ body {
 .search-overlay-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
+    /* blur the page behind the overlay instead of darkening it completely */
+    backdrop-filter: blur(8px) saturate(1.05);
+    -webkit-backdrop-filter: blur(8px) saturate(1.05);
+    background: rgba(0, 0, 0, 0.12); /* slight dim to keep contrast for content */
+    z-index: 0;
 }
 
 .search-overlay-content {
@@ -1131,13 +1134,36 @@ body {
 }
 
 .cart-item-quantity button {
-    width: 25px;
-    height: 25px;
-    background: var(--bg-hover);
-    border: none;
-    border-radius: 5px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.06));
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     color: var(--text-primary);
     cursor: pointer;
+    font-weight: 700;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.cart-item-quantity button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    background: linear-gradient(180deg, var(--accent-primary), rgba(0,0,0,0.04));
+    color: #000;
+}
+
+.cart-item-quantity button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.cart-item-quantity button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .cart-footer {
@@ -1163,6 +1189,34 @@ body {
     color: white;
     font-weight: 600;
     cursor: pointer;
+}
+
+/* Remove item button in sidebar */
+.remove-item {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease, transform 0.08s ease;
+}
+
+.remove-item:hover {
+    background: rgba(255,0,0,0.06);
+    color: #ff6161;
+    transform: translateY(-1px);
+}
+
+.remove-item:active {
+    transform: translateY(0);
+}
+
+/* Small responsive tweak */
+@media (max-width: 480px) {
+    .cart-sidebar { width: 320px; }
+    .cart-item-img { width: 64px; height: 64px; }
+    .cart-item-quantity button { width: 28px; height: 28px; }
 }
 
 /* ==================== LOGIN PAGE ==================== */
