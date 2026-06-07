@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="css/style.css?v=<?php echo filemtime(__DIR__ . '/css/style.css'); ?>">
+<link rel="stylesheet" href="/css/style.css?v=<?php echo filemtime(__DIR__ . '/css/style.css'); ?>">
 
 <header class="header">
     <nav class="navbar">
@@ -73,4 +73,4 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <div class="cart-overlay" id="cartOverlay"></div>
 
-<script src="js/script.js"></script>
+<script src="/js/script.js"></script>

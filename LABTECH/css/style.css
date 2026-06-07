@@ -262,7 +262,7 @@ body {
     top: -5px;
     right: -5px;
     background: var(--accent-primary);
-    color: #000;
+    color: #fff;
     font-size: 0.7rem;
     font-weight: bold;
     padding: 2px 5px;
@@ -1817,3 +1817,142 @@ body {
     color: var(--accent-primary);
     transform: translateY(-50%) scale(1.1);
 }
+
+/* ==================== SEARCH PAGE STYLES (moved from search.php) ==================== */
+.search-page {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Barre de recherche centrale */
+.search-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+}
+.search-hero h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+.search-hero p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+.search-bar-large {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+.search-input-wrapper {
+    display: flex;
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: 60px;
+    overflow: hidden;
+    transition: all var(--transition-normal);
+}
+.search-input-wrapper:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+.search-input-wrapper input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+}
+.search-input-wrapper button {
+    padding: 0 1.5rem;
+    background: var(--accent-gradient);
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-normal);
+}
+.search-input-wrapper button:hover {
+    opacity: 0.9;
+}
+
+/* Suggestions de recherche */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-top: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    box-shadow: var(--shadow-lg);
+}
+.search-suggestions.active {
+    display: block;
+}
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    transition: background var(--transition-fast);
+}
+.suggestion-item:hover {
+    background: var(--bg-hover);
+}
+.suggestion-item img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+}
+.suggestion-info {
+    flex: 1;
+}
+.suggestion-name {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+.suggestion-category {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+.suggestion-price {
+    color: var(--accent-primary);
+    font-weight: bold;
+}
+
+/* Recommandations par catégorie */
+.recommendations { margin-top: 3rem; }
+.recommendations h2 { text-align: center; margin-bottom: 2rem; font-size: 1.8rem; }
+.category-recommendations { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.rec-card { background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-color); transition: all var(--transition-normal); text-decoration: none; color: var(--text-primary); display: block; }
+.rec-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: var(--accent-primary); }
+.rec-image { height: 180px; overflow: hidden; }
+.rec-image img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-slow); }
+.rec-card:hover .rec-image img { transform: scale(1.05); }
+.rec-info { padding: 1rem; }
+.rec-category { font-size: 0.7rem; color: var(--accent-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+.rec-name { font-weight: 600; margin-bottom: 0.5rem; font-size: 1rem; }
+.rec-price { color: var(--accent-primary); font-weight: bold; }
+
+/* Résultats de recherche */
+.results-header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+.results-header h2 { margin-bottom: 0.5rem; }
+.results-count { color: var(--text-muted); font-size: 0.9rem; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.no-results { text-align: center; padding: 4rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color); }
+.no-results-icon { font-size: 4rem; margin-bottom: 1rem; }

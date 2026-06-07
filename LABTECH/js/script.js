@@ -19,7 +19,7 @@ async function openSearchOverlay(initialQuery = '') {
     const inner = document.getElementById('searchOverlayInner');
     if (inner && inner.innerHTML.trim() === '') {
         try {
-            const url = initialQuery ? `search.php?overlay=1&q=${encodeURIComponent(initialQuery)}` : 'search.php?overlay=1';
+            const url = initialQuery ? `/search.php?overlay=1&q=${encodeURIComponent(initialQuery)}` : '/search.php?overlay=1';
             const res = await fetch(url, { cache: 'no-store' });
             const html = await res.text();
             inner.innerHTML = html;
@@ -62,7 +62,7 @@ function initOverlaySearch() {
     mainInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             const q = mainInput.value.trim();
-            if (q) window.location.href = `search.php?q=${encodeURIComponent(q)}`;
+            if (q) window.location.href = `/search.php?q=${encodeURIComponent(q)}`;
         }
     });
 
@@ -141,7 +141,7 @@ let productStock = {};
 
 async function loadProductStock() {
     try {
-        const response = await fetch('get_all_products.php');
+        const response = await fetch('/get_all_products.php');
         const products = await response.json();
         products.forEach(product => {
             productStock[product.id] = {
@@ -179,7 +179,7 @@ async function submitOrder(paymentMethod = 'Paiement à la livraison') {
     }
 
     try {
-        const response = await fetch('checkout.php', {
+        const response = await fetch('/checkout.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -416,7 +416,7 @@ async function loadProductDetails() {
     if (!productId) return;
     
     try {
-        const response = await fetch(`get_product.php?id=${productId}`);
+        const response = await fetch(`/get_product.php?id=${productId}`);
         const product = await response.json();
         
         if (!product) {
@@ -801,7 +801,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const checkoutButton = event.target.closest('.checkout-btn');
         if (!checkoutButton) return;
         event.preventDefault();
-        window.location.href = 'checkout.php';
+        window.location.href = '/checkout.php';
     });
     
     console.log('✅ Initialisation terminée');
@@ -849,7 +849,7 @@ async function fetchSearchSuggestions(query) {
     }
     
     try {
-        const response = await fetch(`search_suggestions.php?q=${encodeURIComponent(query)}`);
+        const response = await fetch(`/search_suggestions.php?q=${encodeURIComponent(query)}`);
         const suggestions = await response.json();
         showSearchSuggestions(suggestions);
     } catch(error) {
@@ -890,8 +890,8 @@ function showSearchSuggestions(suggestions) {
     }
     
     suggestionsBox.innerHTML = suggestions.map(product => `
-        <a href="product.php?id=${product.id}" style="display: flex; align-items: center; gap: 10px; padding: 10px; text-decoration: none; color: var(--text-primary); border-bottom: 1px solid var(--border-color); transition: background var(--transition-fast);">
-            <img src="uploads/${product.image}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;" onerror="this.src='https://placehold.co/40x40/1a1a2e/00d4ff?text=?'">
+        <a href="/product.php?id=${product.id}" style="display: flex; align-items: center; gap: 10px; padding: 10px; text-decoration: none; color: var(--text-primary); border-bottom: 1px solid var(--border-color); transition: background var(--transition-fast);">
+            <img src="/uploads/${product.image}" alt="${product.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;" onerror="this.src='https://placehold.co/40x40/1a1a2e/00d4ff?text=?'">
             <div style="flex: 1;">
                 <strong>${product.name}</strong>
                 <span style="display: block; font-size: 0.75rem; color: var(--text-muted);">${product.price.toLocaleString('fr-FR')} FCFA</span>
