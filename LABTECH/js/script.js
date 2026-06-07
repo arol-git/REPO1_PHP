@@ -1,17 +1,19 @@
 // ==================== DOM ELEMENTS ====================
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('navMenu');
-const navOverlay = document.getElementById('navOverlay');
-const searchBtn = document.getElementById('searchBtn');
-const searchOverlay = document.getElementById('searchOverlay');
-const closeSearch = document.getElementById('closeSearch');
-const cartIcon = document.getElementById('cartIcon');
-const cartSidebar = document.getElementById('cartSidebar');
-const cartOverlay = document.getElementById('cartOverlay');
-const closeCart = document.getElementById('closeCart');
-const cartItemsContainer = document.getElementById('cartItems');
-const cartTotal = document.getElementById('cartTotal');
-const cartCount = document.getElementById('cartCount');
+// Déclarer les variables ici et les (ré)lire après le chargement du DOM
+let hamburger;
+let navMenu;
+let navOverlay;
+let searchBtn;
+let searchOverlay;
+let closeSearch;
+let cartIcon;
+let cartSidebar;
+let cartOverlay;
+let closeCart;
+let cartItemsContainer;
+let cartTotal;
+let cartCount;
+let searchInput;
 
 // -------------------- Search overlay helpers --------------------
 async function openSearchOverlay(initialQuery = '') {
@@ -19,7 +21,7 @@ async function openSearchOverlay(initialQuery = '') {
     const inner = document.getElementById('searchOverlayInner');
     if (inner && inner.innerHTML.trim() === '') {
         try {
-            const url = initialQuery ? `/search.php?overlay=1&q=${encodeURIComponent(initialQuery)}` : '/search.php?overlay=1';
+            const url = initialQuery ? `${window.APP_BASE}/search.php?overlay=1&q=${encodeURIComponent(initialQuery)}` : `${window.APP_BASE}/search.php?overlay=1`;
             const res = await fetch(url, { cache: 'no-store' });
             const html = await res.text();
             inner.innerHTML = html;
@@ -75,27 +77,7 @@ function initOverlaySearch() {
     if (backdrop) backdrop.addEventListener('click', closeSearchOverlay);
 }
 
-// wire the main search button
-if (searchBtn) {
-    searchBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        openSearchOverlay();
-    });
-}
-
-if (closeSearch) {
-    closeSearch.addEventListener('click', (e) => {
-        e.preventDefault();
-        closeSearchOverlay();
-    });
-}
-
-if (searchOverlay) {
-    // allow closing with Escape
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) closeSearchOverlay();
-    });
-}
+// Les écouteurs liés à l'overlay de recherche sont attachés après DOMContentLoaded
 
 // ---------------------------------------------------------------
 
@@ -676,7 +658,45 @@ function initScrollAnimations() {
 
 // ==================== INITIALISATION GLOBALE ====================
 document.addEventListener('DOMContentLoaded', async () => {
+    // Récupérer les éléments du DOM maintenant que la page est chargée
+    hamburger = document.getElementById('hamburger');
+    navMenu = document.getElementById('navMenu');
+    navOverlay = document.getElementById('navOverlay');
+    searchBtn = document.getElementById('searchBtn');
+    searchOverlay = document.getElementById('searchOverlay');
+    closeSearch = document.getElementById('closeSearch');
+    cartIcon = document.getElementById('cartIcon');
+    cartSidebar = document.getElementById('cartSidebar');
+    cartOverlay = document.getElementById('cartOverlay');
+    closeCart = document.getElementById('closeCart');
+    cartItemsContainer = document.getElementById('cartItems');
+    cartTotal = document.getElementById('cartTotal');
+    cartCount = document.getElementById('cartCount');
+    searchInput = document.getElementById('searchInput');
+
     console.log('🚀 Initialisation du site...');
+
+    // ==================== Overlay Search Listeners ====================
+    if (searchBtn) {
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openSearchOverlay();
+        });
+    }
+
+    if (closeSearch) {
+        closeSearch.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeSearchOverlay();
+        });
+    }
+
+    if (searchOverlay) {
+        // allow closing with Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && searchOverlay.classList.contains('active')) closeSearchOverlay();
+        });
+    }
     
     // Charger les stocks
     await loadProductStock();
@@ -901,18 +921,4 @@ function showSearchSuggestions(suggestions) {
     `).join('');
 }
 
-// Modifier l'écouteur de recherche
-if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        const query = e.target.value;
-        searchTimeout = setTimeout(() => fetchSearchSuggestions(query), 300);
-    });
-    
-    // Nettoyer les suggestions quand on perd le focus
-    searchInput.addEventListener('blur', () => {
-        setTimeout(() => {
-            document.getElementById('searchSuggestions')?.remove();
-        }, 200);
-    });
-}
+// searchInput listeners are initialized in initSearch() during DOMContentLoaded
