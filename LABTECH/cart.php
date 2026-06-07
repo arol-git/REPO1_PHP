@@ -15,8 +15,8 @@
     <main>
         <div class="cart-container">
             <h1>Mon Panier</h1>
-            <div id="cartItems"></div>
-            <div id="cartTotal"></div>
+            <div id="cartPageItems"></div>
+            <div id="cartPageTotal"></div>
         </div>
     </main>
 
@@ -25,8 +25,8 @@
     <script>
         async function loadCart() {
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const cartContainer = document.getElementById('cartItems');
-            const totalContainer = document.getElementById('cartTotal');
+            const cartContainer = document.getElementById('cartPageItems');
+            const totalContainer = document.getElementById('cartPageTotal');
             
             if(cart.length === 0) {
                 cartContainer.innerHTML = '<div class="cart-empty"><span>🛒</span><p>Votre panier est vide</p><a href="shop.php" class="btn-primary" style="margin-top:1rem;display:inline-block;">Découvrir la boutique</a></div>';
@@ -127,5 +127,17 @@
         
         loadCart();
     </script>
+      <script>
+        // Initialiser les éléments du panier
+        cartSidebar = document.getElementById('cartSidebar');
+        cartOverlay = document.getElementById('cartOverlay');
+        closeCart = document.getElementById('closeCart');
+        cartContainer = document.getElementById('cartPageItems');
+        cartTotal = document.getElementById('cartPageTotal');
+        
+        // Charger le panier et mettre à jour l'interface
+        loadCart();
+    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>

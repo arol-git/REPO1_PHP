@@ -70,5 +70,68 @@
     </main>
 
     <?php require_once 'footer.php'; ?>
+    <script>
+        // Scroll vers la section correspondante si un hash est présent dans l'URL
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash) {
+                const targetId = window.location.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+
+        // Fonction pour faire défiler en douceur vers une section
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        // Ajouter des écouteurs de clic aux liens de la section FAQ
+        document.querySelectorAll('.faq-item h3').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            });
+        });
+    </script>
+    <script src="js/script.js"></script>
+    <style>
+        .faq-item p {
+            display: none;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .faq-item h3 {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .faq-item h3:hover {
+            color: var(--accent-primary);
+        }
+        .success-message, .error-message {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        .success-message {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+        }
+        .error-message {
+            background: rgba(255, 68, 68, 0.15);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: #ff6666;
+        }
+    </style>
 </body>
 </html>

@@ -189,12 +189,15 @@ async function submitOrder(paymentMethod = 'Paiement à la livraison') {
         showNotification('✅ Commande envoyée au vendeur !', 'success');
     } catch (error) {
         console.error('Erreur checkout:', error);
-        showNotification('Erreur lors de l’envoi de la commande.', 'error');
+        showNotification("Erreur lors de l’envoi de la commande.", 'error');
     }
 }
 
 function updateCartUI() {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const cartItemsContainer = document.getElementById('cartPageItems');
+    const cartTotal = document.getElementById('cartPageTotal');
+    const cartCount = document.getElementById('cartCount');
     if (cartCount) cartCount.textContent = totalItems;
     
     if (!cartItemsContainer) return;
@@ -273,7 +276,7 @@ function updateCartUI() {
     });
     
     document.querySelectorAll('.increase-qty').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', (e) => {  // e c'est l'événement de clic, pas nécessaire ici mais ça peut être utile pour d'autres interactions
             const cartItem = btn.closest('.cart-item');
             const id = parseInt(cartItem.dataset.id);
             const item = cart.find(i => i.id === id);
@@ -678,9 +681,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     cartSidebar = document.getElementById('cartSidebar');
     cartOverlay = document.getElementById('cartOverlay');
     closeCart = document.getElementById('closeCart');
-    cartItemsContainer = document.getElementById('cartItems');
-    cartTotal = document.getElementById('cartTotal');
-    cartCount = document.getElementById('cartCount');
+   // cartItemsContainer = document.getElementById('cartPageItems');
+   // cartTotal = document.getElementById('cartPageTotal');
+    //cartCount = document.getElementById('cartCount');
     searchInput = document.getElementById('searchInput');
 
     console.log('🚀 Initialisation du site...');

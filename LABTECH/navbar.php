@@ -37,7 +37,7 @@ $jsPath = ($basePath === '') ? '/js/script.js' : $basePath . '/js/script.js';
                 <button class="theme-toggle" id="theme-toggle" title="Changer de thème">
                     <span class="theme-icon"><i class="fa-solid fa-moon fa-rotate-by fa-xl" style="color: rgb(255, 212, 59); --fa-rotate-angle: 220deg;"></i></i></span>
                 </button>
-                <div class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></div>  <!-- la balise span permet de faire  -->
+                <div class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></div>  <!-- la balise span permet de  -->
                 <div class="cart-icon" id="cartIcon"><i class="fa-solid fa-cart-shopping fa-xl"></i><span class="cart-count" id="cartCount"></span></div>
                 <div class="hamburger" id="hamburger">
                     <span></span>
@@ -83,4 +83,3 @@ $jsPath = ($basePath === '') ? '/js/script.js' : $basePath . '/js/script.js';
 <script>
     window.APP_BASE = '<?php echo $basePath === '' ? '' : $basePath; ?>';
 </script>
-<script src="<?php echo $jsPath; ?>"></script>
