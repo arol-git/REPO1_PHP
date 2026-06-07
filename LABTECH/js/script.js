@@ -841,6 +841,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         event.preventDefault();
         window.location.href = `${window.APP_BASE}/checkout.php`;
     });
+
+    // Fallback delegation for navbar cart icon (au cas où #cartIcon listener ne s'attache pas)
+    document.body.addEventListener('click', (event) => {
+        const cartBtn = event.target.closest('.cart-icon');
+        if (!cartBtn) return;
+        event.preventDefault();
+        try {
+            cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        } catch (err) {
+            cart = [];
+        }
+        updateCartUI();
+        updateAllCartButtons();
+        cartSidebar?.classList.add('open');
+        cartOverlay?.classList.add('active');
+    });
     
     console.log('✅ Initialisation terminée');
 });
