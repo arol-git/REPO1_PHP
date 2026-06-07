@@ -316,6 +316,32 @@ body {
     visibility: visible;
 }
 
+.search-overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.search-overlay-content {
+    position: relative;
+    width: min(1100px, 95%);
+    max-height: 90vh;
+    overflow: auto;
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .search-overlay-content {
+        padding: 1rem;
+        width: 96%;
+    }
+}
+
 .search-container {
     width: 90%;
     max-width: 600px;

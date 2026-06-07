@@ -30,6 +30,70 @@ foreach($categories as $cat) {
         $category_products[$cat] = $product;
     }
 }
+
+// Mode fragment pour l'overlay de recherche
+if (isset($_GET['overlay']) && $_GET['overlay'] == '1') {
+    ?>
+    <div class="search-page">
+        <div class="search-hero">
+            <h1><i class="fa-solid fa-magnifying-glass fa-xl"></i> Que recherchez-vous ?</h1>
+            <p>Trouvez l'accessoire parfait parmi notre catalogue</p>
+            
+            <div class="search-bar-large">
+                <div class="search-input-wrapper">
+                    <input type="text" id="mainSearchInput" placeholder="Ex: chargeur rapide, écouteurs bluetooth..." value="<?php echo htmlspecialchars($search_query); ?>" autocomplete="off">
+                    <button id="searchButton">Rechercher</button>
+                </div>
+                <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+        </div>
+
+        <?php if(!empty($search_query)): ?>
+            <div class="results-header">
+                <h2>📋 Résultats pour "<span style="color: var(--accent-primary);"><?php echo htmlspecialchars($search_query); ?></span>"</h2>
+                <p class="results-count"><?php echo count($search_results); ?> produit(s) trouvé(s)</p>
+            </div>
+
+            <?php if(count($search_results) > 0): ?>
+                <div class="products-grid">
+                    <?php foreach($search_results as $product): ?>
+                        <a href="product.php?id=<?php echo $product['id']; ?>" class="product-card">
+                            <div class="product-image"><img src="uploads/<?php echo $product['image'] ?: 'default.jpg'; ?>" onerror="this.src='https://placehold.co/300x200/1a1a2e/00d4ff?text=?'" alt="<?php echo htmlspecialchars($product['name']); ?>"></div>
+                            <div class="product-info">
+                                <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                                <p class="price"><?php echo number_format($product['price'] * 655.96, 0, ',', ' '); ?> FCFA</p>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="no-results">
+                    <div class="no-results-icon">😕</div>
+                    <h3>Aucun résultat trouvé</h3>
+                    <p>Nous n'avons pas trouvé de produit correspondant à "<strong><?php echo htmlspecialchars($search_query); ?></strong>"</p>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <div class="recommendations">
+            <h2>✨ Découvrez par catégorie</h2>
+            <div class="category-recommendations">
+                <?php foreach($category_products as $cat => $prod): ?>
+                    <a href="product.php?id=<?php echo $prod['id']; ?>" class="rec-card">
+                        <div class="rec-image"><img src="uploads/<?php echo $prod['image'] ?: 'default.jpg'; ?>" alt="<?php echo htmlspecialchars($prod['name']); ?>" onerror="this.src='https://placehold.co/300x200/1a1a2e/00d4ff?text=?'"></div>
+                        <div class="rec-info">
+                            <div class="rec-category"><?php echo htmlspecialchars(strtoupper($cat)); ?></div>
+                            <div class="rec-name"><?php echo htmlspecialchars($prod['name']); ?></div>
+                            <div class="rec-price"><?php echo number_format($prod['price'] * 655.96, 0, ',', ' '); ?> FCFA</div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <?php
+    exit;
+}
 ?>
 
 <!DOCTYPE html>

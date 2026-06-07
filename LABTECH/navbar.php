@@ -42,16 +42,6 @@ if (session_status() == PHP_SESSION_NONE) {
     </nav>
     <div class="nav-overlay" id="navOverlay"></div>
     
-    <!-- Search Bar
-    <div class="search-overlay" id="searchOverlay">
-        <div class="search-container">
-            <form action="search.php" method="GET" style="width: 100%;">
-                <input type="text" name="q" placeholder="Rechercher un produit..." id="searchInput" autocomplete="off">
-                <button type="submit" class="search-submit" style="position: absolute; right: 50px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-primary); cursor: pointer;">🔍ghjklkjhgvhj</button>
-                <button type="button" class="close-search" id="closeSearch">✕</button>
-            </form>
-        </div>
-    </div> -->
 </header>
 
 <div class="cart-sidebar" id="cartSidebar">
@@ -73,7 +63,13 @@ if (session_status() == PHP_SESSION_NONE) {
         <button class="checkout-btn" id="checkoutBtn">Commander</button>
     </div>
 </div> 
-<?php include 'search.php'; ?>
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+    <div class="search-overlay-backdrop" id="searchOverlayBackdrop"></div>
+    <div class="search-overlay-content" id="searchOverlayContent">
+        <button class="close-search" id="closeSearch" aria-label="Fermer la recherche">✕</button>
+        <div id="searchOverlayInner"></div>
+    </div>
+</div>
 
 <div class="cart-overlay" id="cartOverlay"></div>
 

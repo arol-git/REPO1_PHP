@@ -13,6 +13,92 @@ const cartItemsContainer = document.getElementById('cartItems');
 const cartTotal = document.getElementById('cartTotal');
 const cartCount = document.getElementById('cartCount');
 
+// -------------------- Search overlay helpers --------------------
+async function openSearchOverlay(initialQuery = '') {
+    if (!searchOverlay) return;
+    const inner = document.getElementById('searchOverlayInner');
+    if (inner && inner.innerHTML.trim() === '') {
+        try {
+            const url = initialQuery ? `search.php?overlay=1&q=${encodeURIComponent(initialQuery)}` : 'search.php?overlay=1';
+            const res = await fetch(url, { cache: 'no-store' });
+            const html = await res.text();
+            inner.innerHTML = html;
+        } catch (err) {
+            console.error('Erreur chargement fragment recherche', err);
+            inner.innerHTML = '<p>Impossible de charger la recherche pour le moment.</p>';
+        }
+    }
+
+    searchOverlay.classList.add('active');
+    searchOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    initOverlaySearch();
+}
+
+function closeSearchOverlay() {
+    if (!searchOverlay) return;
+    searchOverlay.classList.remove('active');
+    searchOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    const inner = document.getElementById('searchOverlayInner');
+    if (inner) inner.innerHTML = '';
+}
+
+function initOverlaySearch() {
+    const mainInput = document.getElementById('mainSearchInput');
+    const suggestionsBox = document.getElementById('searchSuggestions');
+    if (!mainInput) return;
+
+    let timeout;
+    mainInput.addEventListener('input', (e) => {
+        clearTimeout(timeout);
+        const q = e.target.value.trim();
+        timeout = setTimeout(() => {
+            if (q.length >= 2) fetchSearchSuggestions(q);
+            else if (suggestionsBox) suggestionsBox.classList.remove('active');
+        }, 250);
+    });
+
+    mainInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const q = mainInput.value.trim();
+            if (q) window.location.href = `search.php?q=${encodeURIComponent(q)}`;
+        }
+    });
+
+    // close button inside injected fragment
+    const closeBtn = document.querySelector('#searchOverlayContent .close-search');
+    if (closeBtn) closeBtn.addEventListener('click', closeSearchOverlay);
+
+    // backdrop click
+    const backdrop = document.getElementById('searchOverlayBackdrop');
+    if (backdrop) backdrop.addEventListener('click', closeSearchOverlay);
+}
+
+// wire the main search button
+if (searchBtn) {
+    searchBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openSearchOverlay();
+    });
+}
+
+if (closeSearch) {
+    closeSearch.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeSearchOverlay();
+    });
+}
+
+if (searchOverlay) {
+    // allow closing with Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) closeSearchOverlay();
+    });
+}
+
+// ---------------------------------------------------------------
+
 // ==================== THEME MANAGER ====================
 class ThemeManager {
     constructor() {
@@ -699,33 +785,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             closeNavMenu();
         });
     });
-    
-    // Recherche overlay
-    if (searchBtn) {
-        searchBtn.addEventListener('click', () => { // cette ligne permet d'ouvrir le menu de recherche
-            searchOverlay?.classList.add('active'); // cette ligne ajoute une classe active à la superposition de recherche pour l'afficher et permettre les interactions avec le champ de recherche
-            searchInput?.classList.add('active'); // cette ligne ajoute une classe active au champ de recherche pour le mettre en avant et permettre à l'utilisateur de commencer à taper sa recherche immédiatement
-            searchSuggestions?.classList.add('active'); // cette ligne ajoute une classe active à la boîte de suggestions de recherche pour l'afficher et montrer les suggestions basées sur ce que l'utilisateur tape dans le champ de recherche
-
-        });
-    }
-
-    
-    if (closeSearch) {
-        closeSearch.addEventListener('click', () => {
-            searchInput?.classList.remove('active'); // cette ligne retire la classe active du champ de recherche pour le cacher et empêcher les interactions avec lui
-            searchSuggestions?.classList.remove('active'); // cette ligne retire la classe active de la boîte de suggestions de recherche pour la cacher et empêcher les interactions avec elle
-            searchOverlay?.classList.remove('active');
-        });
-    }
-    
-    if (searchOverlay) {
-        searchOverlay.addEventListener('click', (e) => {
-            if (e.target === searchOverlay) {
-                searchOverlay.classList.remove('active');
-            }
-        });
-    }
     
     // Quick view
     document.querySelectorAll('.quick-view').forEach(btn => {
