@@ -195,35 +195,41 @@ async function submitOrder(paymentMethod = 'Paiement à la livraison') {
 
 function updateCartUI() {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const cartItemsContainer = document.getElementById('cartPageItems');
-    const cartTotal = document.getElementById('cartPageTotal');
-    const cartCount = document.getElementById('cartCount');
-    if (cartCount) cartCount.textContent = totalItems;
-    
-    if (!cartItemsContainer) return;
-    
+    const sidebarItems = document.getElementById('cartItems');
+    const pageItems = document.getElementById('cartPageItems');
+    const sidebarTotal = document.getElementById('cartTotal');
+    const pageTotal = document.getElementById('cartPageTotal');
+    const cartCountEl = document.getElementById('cartCount');
+    if (cartCountEl) cartCountEl.textContent = totalItems;
+
+    // If neither target exists, nothing to update
+    if (!sidebarItems && !pageItems) return;
+
     if (cart.length === 0) {
-        cartItemsContainer.innerHTML = `
+        const emptyHtml = `
             <div class="cart-empty">
                 <span>🛒</span>
                 <p>Votre panier est vide</p>
             </div>
         `;
-        if (cartTotal) cartTotal.textContent = '0 FCFA';
+        if (sidebarItems) sidebarItems.innerHTML = emptyHtml;
+        if (pageItems) pageItems.innerHTML = emptyHtml;
+        if (sidebarTotal) sidebarTotal.textContent = '0 FCFA';
+        if (pageTotal) pageTotal.textContent = '0 FCFA';
         return;
     }
-    
+
     let itemsHtml = '';
     let total = 0;
-    
+
     for (const item of cart) {
         const subtotal = item.price * item.quantity;
         total += subtotal;
         const maxStock = getProductStock(item.id);
-        
+
         itemsHtml += `
             <div class="cart-item" data-id="${item.id}">
-                <img src="${window.APP_BASE}/uploads/${item.image || 'default.jpg'}" alt="${item.name}" class="cart-item-img" onerror="this.src='${window.APP_BASE}/uploads/default.jpg'">
+                <img src="${window.APP_BASE}/uploads/${item.image || 'default.jpg'}" alt="${escapeHtml(item.name)}" class="cart-item-img" onerror="this.src='${window.APP_BASE}/uploads/default.jpg'">
                 <div class="cart-item-info">
                     <h4 class="cart-item-title">${escapeHtml(item.name)}</h4>
                     <p class="cart-item-price">${item.price.toLocaleString('fr-FR')} FCFA</p>
@@ -238,9 +244,11 @@ function updateCartUI() {
             </div>
         `;
     }
-    
-    cartItemsContainer.innerHTML = itemsHtml;
-    if (cartTotal) cartTotal.textContent = `${total.toLocaleString('fr-FR')} FCFA`;
+
+    if (sidebarItems) sidebarItems.innerHTML = itemsHtml;
+    if (pageItems) pageItems.innerHTML = itemsHtml;
+    if (sidebarTotal) sidebarTotal.textContent = `${total.toLocaleString('fr-FR')} FCFA`;
+    if (pageTotal) pageTotal.textContent = `${total.toLocaleString('fr-FR')} FCFA`;
     
     // Événements pour les inputs de quantité
     document.querySelectorAll('.cart-qty-input').forEach(input => {
