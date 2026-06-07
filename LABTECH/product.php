@@ -132,6 +132,6 @@ $stockColor = $product['stock'] > 0 ? '#00ff88' : '#ff4444';
     </main>
 
     <?php require_once 'footer.php'; ?>
-    <script src="/js/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
