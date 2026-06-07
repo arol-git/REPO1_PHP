@@ -17,7 +17,7 @@
                     <a class="social-link" href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                     <a class="social-link" href="https://t.me/671990780" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
                     <a class="social-link" href="http://www.youtube.com/@YemeliArol" target="_blank" rel="noopener noreferrer" title="YouTube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a class="social-link" href="http://www.tiktok.com/@YemeliArol" target="_blank" rel="noopener noreferrer" title="Tiktok" aria-label="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a class="social-link" href="http://www.tiktok.com/@.arol" target="_blank" rel="noopener noreferrer" title="Tiktok" aria-label="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
             

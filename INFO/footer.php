@@ -27,7 +27,7 @@
                     <a href="https://facebook.com/yemeli.arol" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
                     <a href="https://t.me/671990780" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
                     <a href="http://www.youtube.com/@YemeliArol" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="http://www.tiktok.com/@YemeliArol" target="_blank" title="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="http://www.tiktok.com/@.arol" target="_blank" title="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
         </div>

@@ -753,8 +753,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Panier
     if (cartIcon) {
         cartIcon.addEventListener('click', () => {
-            cartSidebar?.classList.add('open');  // cette ligne permet d'ouvrir le menu latéral du panier en ajoutant une classe "open" qui déclenche les styles CSS associés pour faire glisser le panier depuis la droite de l'écran
-            cartOverlay?.classList.add('active');  // cette ligne ajoute une superposition sombre derrière le panier pour mettre en avant le menu du panier et empêcher les interactions avec le reste de la page
+            // Recharger le panier depuis le stockage local au moment de l'ouverture
+            try {
+                cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            } catch (err) {
+                cart = [];
+            }
+            updateCartUI();
+            updateAllCartButtons();
+
+            cartSidebar?.classList.add('open');
+            cartOverlay?.classList.add('active');
         });
     }
     

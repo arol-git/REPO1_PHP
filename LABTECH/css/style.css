@@ -1574,7 +1574,9 @@ body {
 
     .nav-actions > .search-btn,
     .nav-actions > .user-btn {
-        display: none;
+        display: flex; /* garder le bouton recherche visible sur petit écran */
+        align-items: center;
+        justify-content: center;
     }
 
     .nav-actions > .theme-toggle {
