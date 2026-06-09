@@ -10,6 +10,8 @@ if(isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin') {
 $error = '';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    requireValidCsrf();
+
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     
@@ -21,6 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $admin = $stmt->fetch();
         
         if($admin && password_verify($password, $admin['password'])) {
+            session_regenerate_id(true);
             $_SESSION['user'] = [
                 'id' => $admin['id'],
                 'username' => $admin['username'],
@@ -187,8 +190,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="error-message"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <form method="POST">
-            <div class="form-group">
+            <form method="POST">
+                <?php echo csrfField(); ?>
+                <div class="form-group">
                 <label for="username">👤 Identifiant</label>
                 <input type="text" id="username" name="username" required autofocus>
             </div>
@@ -205,5 +209,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p>Pas un administrateur ? <a href="index.php">Retour à l'accueil</a></p>
         </div>
     </div>
+    <script src="js/script.js"></script>
 </body>
 </html>

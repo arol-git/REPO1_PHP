@@ -1035,19 +1035,63 @@ body {
     }
 }
 
+/* APRÈS */
 @media (max-width: 768px) {
     .nav-links {
         position: fixed;
         top: 70px;
         left: -100%;
-        width: 100%;
-        height: calc(100vh - 70px);
+        width: 220px;              /* largeur fixe au lieu de 100% */
+        height: auto;              /* hauteur selon le contenu */
         background: var(--bg-secondary);
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 2rem;
-        transition: left var(--transition);
+        
+        align-items: flex-start;   /* aligné à gauche */
+        justify-content: flex-start;
+        gap: 0;                    /* gap géré par padding */
+        padding: 1rem 0;
+        border-radius: 0 0 var(--radius-md) 0;
+        border-right: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow-lg);
+        transition: left var(--transition-normal);
+        z-index: 1001; /* au-dessus de tout sauf le header qui est à 1000 aussi, mais le menu doit être au-dessus du header quand il est ouvert */
+    }
+main{
+    display: fixed;
+    
+}
+    /* Overlay flouté derrière le menu */
+.nav-overlay {
+    display: none;
+
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(4px);  /* flou de l'arrière-plan */
+    -webkit-backdrop-filter: blur(4px); /* permet la compatibilité avec les navigateurs WebKit */
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1003; /* juste en dessous du menu qui est à 1000 */
+}
+
+.nav-overlay.active {
+    display: block;  /* affiché quand le menu est actif */
+}
+
+    /* padding sur chaque lien */
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 0.8rem 1.5rem;
+        width: 100%;
+    }
+
+    .nav-links a::after {
+        display: none;   /* retirer le soulignement sur mobile */
     }
     
     .nav-links.active {

@@ -1,13 +1,12 @@
 <?php
 require_once 'config.php';
 
-if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
-    header('Location: admin-login.php');
-    exit;
-}
+requireAdmin();
 
 // AJOUTER UN PRODUIT
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'add') {
+    requireValidCsrf();
+
     $name = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
     $price = $_POST['price'] ?? 0;
@@ -15,24 +14,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['ac
     $stock = $_POST['stock'] ?? 0;
     
     $image = 'default.jpg';
-    if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
-        $filename = $_FILES['image']['name'];
-        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        if(in_array($ext, $allowed)) {
-            $image = time() . '_' . $filename;
-            move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $image);
+    try {
+        $uploadedImage = saveUploadedImage($_FILES['image'] ?? null, __DIR__ . '/uploads');
+        if ($uploadedImage !== null) {
+            $image = $uploadedImage;
         }
+    } catch (RuntimeException $e) {
+        $error = $e->getMessage();
     }
     
-    // La date de création sera automatiquement ajoutée par MySQL
-    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, category, image, stock) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$name, $description, $price, $category, $image, $stock]);
-    $success = "Produit ajouté avec succès !";
+    if (!isset($error)) {
+        $stmt = $pdo->prepare("INSERT INTO products (name, description, price, category, image, stock) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$name, $description, $price, $category, $image, $stock]);
+        $success = "Produit ajouté avec succès !";
+    }
 }
 
 // MODIFIER UN PRODUIT
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'edit') {
+    requireValidCsrf();
+
     $id = $_POST['id'] ?? 0;
     $name = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
@@ -49,6 +50,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['ac
 
 // SUPPRIMER UN PRODUIT
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'delete') {
+    requireValidCsrf();
+
     $id = $_POST['id'] ?? 0;
     if($id > 0) {
         $stmt = $pdo->prepare("DELETE FROM products WHERE id=?");
@@ -344,12 +347,16 @@ if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
             <?php if(isset($success)): ?>
                 <div class="notification success">✅ <?php echo $success; ?></div>
             <?php endif; ?>
+            <?php if(isset($error)): ?>
+                <div class="notification error">⚠️ <?php echo e($error); ?></div>
+            <?php endif; ?>
             
             <!-- Formulaire d'ajout -->
             <?php if($showAddForm): ?>
                 <div class="admin-form">
                     <h2>➕ Ajouter un nouveau produit</h2>
                     <form method="POST" enctype="multipart/form-data">
+                        <?php echo csrfField(); ?>
                         <input type="hidden" name="action" value="add">
                         <div class="form-group">
                             <label>Nom du produit *</label>
@@ -392,6 +399,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
                 <div class="admin-form">
                     <h2>✏️ Modifier le produit : <?php echo htmlspecialchars($editProduct['name']); ?></h2>
                     <form method="POST">
+                        <?php echo csrfField(); ?>
                         <input type="hidden" name="action" value="edit">
                         <input type="hidden" name="id" value="<?php echo $editProduct['id']; ?>">
                         <div class="form-group">
@@ -466,6 +474,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
                                 <div class="product-actions">
                                     <a href="?action=edit&id=<?php echo $product['id']; ?>" class="edit-btn">✏️ Modifier</a>
                                     <form method="POST" style="flex:1;" onsubmit="return confirm('⚠️ Êtes-vous sûr de vouloir supprimer ce produit ?')">
+                                        <?php echo csrfField(); ?>
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
                                         <button type="submit" class="delete-btn" style="width:100%;">🗑️ Supprimer</button>

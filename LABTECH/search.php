@@ -268,7 +268,7 @@ if (isset($_GET['overlay']) && $_GET['overlay'] == '1') {
     </main>
 
     <?php require_once 'footer.php'; ?>
-    
+    <script src="js/script.js"></script>
     <script>
         // ==================== RECHERCHE AVEC SUGGESTIONS ====================
         const searchInput = document.getElementById('mainSearchInput');
@@ -347,6 +347,6 @@ if (isset($_GET['overlay']) && $_GET['overlay'] == '1') {
         }
     </script>
     
-    <script src="js/script.js"></script>
+    
 </body>
 </html>

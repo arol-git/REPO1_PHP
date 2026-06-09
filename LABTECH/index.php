@@ -1,7 +1,7 @@
 <?php
 require_once 'config.php';
 
-$newProducts = $pdo->query("SELECT * FROM products WHERE new = TRUE LIMIT 6")->fetchAll();
+$newProducts = $pdo->query("SELECT * FROM products WHERE `new` = TRUE LIMIT 6")->fetchAll();
 $featuredProducts = $pdo->query("SELECT * FROM products WHERE featured = TRUE LIMIT 6")->fetchAll();
 $inStockProducts = $pdo->query("SELECT * FROM products WHERE stock > 0 LIMIT 6")->fetchAll();
 ?>

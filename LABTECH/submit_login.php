@@ -14,8 +14,9 @@ if (!filter_var($postData['email'], FILTER_VALIDATE_EMAIL)) {
      foreach ($users as $user) {
          if (
          $user['email'] === $postData['email'] &&
-         $user['password'] === $postData['password']
+         password_verify($postData['password'], $user['password_hash'])
          ) {
+         session_regenerate_id(true);
          $_SESSION['LOGGED_USER'] = [
              'email' => $user['email'],
              'user_id' => $user['user_id'],
@@ -25,9 +26,8 @@ if (!filter_var($postData['email'], FILTER_VALIDATE_EMAIL)) {
 
      if (!isset($_SESSION['LOGGED_USER'])) {
          $_SESSION['LOGIN_ERROR_MESSAGE'] = sprintf(
-         'Les informations envoyées ne permettent pas de vous identifier : (%s/%s)',
-         $postData['email'],
-         strip_tags($postData['password'])
+         'Les informations envoyées ne permettent pas de vous identifier : %s',
+         $postData['email']
          );
      }
 }

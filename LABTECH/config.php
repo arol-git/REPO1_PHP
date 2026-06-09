@@ -1,21 +1,95 @@
 <?php
 // Configuration de la base de données
-$host = 'localhost';
-$dbname = 'ecommerce_db';
-$username = 'root';
-$password = '';
+$host = getenv('DB_HOST') ?: 'localhost';
+$dbname = getenv('DB_NAME') ?: 'ecommerce_db';
+$username = getenv('DB_USER') ?: 'root';
+$password = getenv('DB_PASSWORD') ?: '';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
 } catch(PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
+    error_log("Erreur de connexion BDD : " . $e->getMessage());
+    die("Erreur de connexion à la base de données.");
 }
 
 // Démarrer la session
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+}
+
+function e($value) {
+    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+}
+
+function requireAdmin() {
+    if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
+        header('Location: admin-login.php');
+        exit;
+    }
+}
+
+function csrfToken() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+
+    return $_SESSION['csrf_token'];
+}
+
+function csrfField() {
+    return '<input type="hidden" name="csrf_token" value="' . e(csrfToken()) . '">';
+}
+
+function verifyCsrfToken($token) {
+    return is_string($token) && isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+}
+
+function requireValidCsrf() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+        http_response_code(403);
+        die('Jeton de sécurité invalide.');
+    }
+}
+
+function saveUploadedImage($file, $uploadDir) {
+    if (!isset($file) || !is_array($file) || $file['error'] === UPLOAD_ERR_NO_FILE) {
+        return null;
+    }
+
+    if ($file['error'] !== UPLOAD_ERR_OK || $file['size'] > 2 * 1024 * 1024) {
+        throw new RuntimeException("L'image est invalide ou trop volumineuse.");
+    }
+
+    $allowedMimeTypes = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/gif' => 'gif',
+        'image/webp' => 'webp',
+    ];
+
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->file($file['tmp_name']);
+
+    if (!isset($allowedMimeTypes[$mimeType])) {
+        throw new RuntimeException("Le fichier envoyé n'est pas une image autorisée.");
+    }
+
+    if (!is_dir($uploadDir) && !mkdir($uploadDir, 0755, true)) {
+        throw new RuntimeException("Le dossier d'upload est indisponible.");
+    }
+
+    $filename = bin2hex(random_bytes(16)) . '.' . $allowedMimeTypes[$mimeType];
+    $destination = rtrim($uploadDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename;
+
+    if (!move_uploaded_file($file['tmp_name'], $destination)) {
+        throw new RuntimeException("L'image n'a pas pu être enregistrée.");
+    }
+
+    return $filename;
 }
 
 // Taux de change (1 EUR = 655.96 XAF)

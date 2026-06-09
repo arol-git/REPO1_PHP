@@ -1,16 +1,21 @@
 <?php
 require_once 'config.php';
 
-if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
-    header('Location: admin-login.php');
-    exit;
-}
+requireAdmin();
 
 // Mise à jour du statut de commande
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_status'])) {
-    $stmt = $pdo->prepare("UPDATE orders SET status = ? WHERE id = ?");
-    $stmt->execute([$_POST['status'], $_POST['order_id']]);
-    $success = "Statut de la commande mis à jour";
+    requireValidCsrf();
+
+    $allowedStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+    $status = $_POST['status'] ?? '';
+    $orderId = (int) ($_POST['order_id'] ?? 0);
+
+    if (in_array($status, $allowedStatuses, true) && $orderId > 0) {
+        $stmt = $pdo->prepare("UPDATE orders SET status = ? WHERE id = ?");
+        $stmt->execute([$status, $orderId]);
+        $success = "Statut de la commande mis à jour";
+    }
 }
 
 $orders = $pdo->query("SELECT o.*, u.username AS customer_username, u.email AS customer_email FROM orders o LEFT JOIN users u ON o.user_id = u.id ORDER BY o.created_at DESC")->fetchAll();
@@ -100,6 +105,7 @@ if(count($orders) > 0) {
                                         <div style="display:flex; gap:0.5rem; flex-wrap: wrap; align-items: center;">
                                             <a href="admin-order-detail.php?id=<?php echo $order['id']; ?>" class="admin-btn" style="padding: 0.3rem 0.8rem;">Voir</a>
                                             <form method="POST" style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                                                <?php echo csrfField(); ?>
                                                 <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
                                                 <input type="hidden" name="update_status" value="1">
                                                 <select name="status" class="status-select">

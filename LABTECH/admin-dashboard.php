@@ -1,10 +1,7 @@
 <?php
 require_once 'config.php';
 
-if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
-    header('Location: admin-login.php');
-    exit;
-}
+requireAdmin();
 
 $totalProducts = $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
 $totalOrders = $pdo->query("SELECT COUNT(*) FROM orders")->fetchColumn();

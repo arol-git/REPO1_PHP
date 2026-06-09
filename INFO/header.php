@@ -25,6 +25,7 @@
             </div>
         </div>
     </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
 </header>
 
 <script>
@@ -52,18 +53,27 @@
     // Gestion du menu hamburger
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
     
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navLinks.classList.toggle('active');
+        navOverlay.classList.toggle('active');
     });
     
     navLinks.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');  // Ferme le menu après avoir cliqué sur lien
+            navLinks.classList.remove('active');  // Ferme le menu après avoir cliqué sur un lien
+            navOverlay.classList.remove('active'); // Ferme le menu après avoir cliqué sur 
         });
     });
+
+    navOverlay.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navLinks.classList.remove('active');
+    navOverlay.classList.remove('active');
+})
     
     // Gestion de l'active sur les liens
     const sections = document.querySelectorAll('section, .hero');

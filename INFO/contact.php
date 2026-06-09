@@ -1,9 +1,18 @@
 <?php
 try {
-    $pdo = new PDO('mysql:host=localhost;charset=utf8mb4', 'root', '');
+    $dbHost = getenv('INFO_DB_HOST') ?: 'localhost';
+    $dbName = getenv('INFO_DB_NAME') ?: 'contact_form';
+    $dbUser = getenv('INFO_DB_USER') ?: 'root';
+    $dbPassword = getenv('INFO_DB_PASSWORD') ?: '';
+
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $dbName)) {
+        throw new PDOException('Nom de base de données invalide');
+    }
+
+    $pdo = new PDO("mysql:host=$dbHost;charset=utf8mb4", $dbUser, $dbPassword);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec("CREATE DATABASE IF NOT EXISTS contact_form CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-    $pdo->exec("USE contact_form;");
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbName` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+    $pdo->exec("USE `$dbName`;");
     $pdo->exec("CREATE TABLE IF NOT EXISTS messages (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
@@ -13,7 +22,8 @@ try {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 } catch (PDOException $e) {
-    echo "Erreur de connexion ou création de la base : " . $e->getMessage();
+    error_log("Erreur BDD INFO/contact.php : " . $e->getMessage());
+    echo "Erreur de connexion ou création de la base.";
     return;
 }
 
@@ -42,20 +52,31 @@ if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] === 0) {
         echo "L'envoi n'a pas pu être effectué, erreur ou image trop volumineuse";
         return;
     }
-    $fileInfo = pathinfo($_FILES['screenshot']['name']);
-    $extension = $fileInfo['extension'];
-    $allowedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
-    if (!in_array($extension, $allowedExtensions)) {
-        echo "L'envoi n'a pas pu être effectué, l'extension {$extension} n'est pas autorisée";
+
+    $allowedMimeTypes = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/gif' => 'gif',
+        'image/webp' => 'webp',
+    ];
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->file($_FILES['screenshot']['tmp_name']);
+
+    if (!isset($allowedMimeTypes[$mimeType])) {
+        echo "L'envoi n'a pas pu être effectué, le fichier n'est pas une image autorisée";
         return;
     }
+
     $path = __DIR__ . '/uploads/';
     if (!is_dir($path)) {
         echo "L'envoi n'a pas pu être effectué, le dossier uploads est manquant";
         return;
     }
-    $screenshotName = basename($_FILES['screenshot']['name']);
-    move_uploaded_file($_FILES['screenshot']['tmp_name'], $path . $screenshotName);
+    $screenshotName = bin2hex(random_bytes(16)) . '.' . $allowedMimeTypes[$mimeType];
+    if (!move_uploaded_file($_FILES['screenshot']['tmp_name'], $path . $screenshotName)) {
+        echo "L'envoi n'a pas pu être effectué, erreur d'enregistrement";
+        return;
+    }
 }
 
 try {
@@ -68,7 +89,8 @@ try {
         $screenshotName
     ]);
 } catch (PDOException $e) {
-    echo "Erreur lors de l'insertion en base : " . $e->getMessage();
+    error_log("Erreur insertion INFO/contact.php : " . $e->getMessage());
+    echo "Erreur lors de l'insertion en base.";
     return;
 }
 ?>

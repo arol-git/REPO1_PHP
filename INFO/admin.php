@@ -1,30 +1,64 @@
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
-$host = "localhost";
-$dbname = "contact_form";
-$username = "root";
-$password = "";
+$host = getenv('INFO_DB_HOST') ?: 'localhost';
+$dbname = getenv('INFO_DB_NAME') ?: 'contact_form';
+$username = getenv('INFO_DB_USER') ?: 'root';
+$password = getenv('INFO_DB_PASSWORD') ?: '';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
 } catch (PDOException $e) {
-    die("Erreur BDD : " . $e->getMessage());
+    error_log("Erreur BDD INFO/admin.php : " . $e->getMessage());
+    die("Erreur de connexion à la base de données.");
 }
 
 session_start();
 
-if (isset($_GET['delete'])) {
-    $id = (int)$_GET['delete'];
+function infoCsrfToken() {
+    if (empty($_SESSION['info_csrf_token'])) {
+        $_SESSION['info_csrf_token'] = bin2hex(random_bytes(32));
+    }
+
+    return $_SESSION['info_csrf_token'];
+}
+
+function infoCsrfField() {
+    return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars(infoCsrfToken(), ENT_QUOTES, 'UTF-8') . '">';
+}
+
+function infoValidCsrf($token) {
+    return is_string($token) && isset($_SESSION['info_csrf_token']) && hash_equals($_SESSION['info_csrf_token'], $token);
+}
+
+$adminUser = getenv('INFO_ADMIN_USER') ?: 'admin';
+$adminPasswordHash = getenv('INFO_ADMIN_PASSWORD_HASH') ?: '$2y$10$btuv9i10dH1pml4E3yd8LOzA8KRXy2O7DZl1KSSzbFnH4VQ54zGyO';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
+    if (!isset($_SESSION['logged_in']) || !infoValidCsrf($_POST['csrf_token'] ?? '')) {
+        http_response_code(403);
+        die('Jeton de sécurité invalide.');
+    }
+
+    $id = (int)$_POST['delete'];
     $pdo->prepare("DELETE FROM messages WHERE id = ?")->execute([$id]);
     header("Location: admin.php?deleted=1");
     exit;
 }
 
 if (!isset($_SESSION['logged_in'])) {
-    if (isset($_POST['username']) && $_POST['username'] === 'admin' && $_POST['password'] === '1234') {
+    if (
+        isset($_POST['username'], $_POST['password']) &&
+        infoValidCsrf($_POST['csrf_token'] ?? '') &&
+        $_POST['username'] === $adminUser &&
+        password_verify($_POST['password'], $adminPasswordHash)
+    ) {
+        session_regenerate_id(true);
         $_SESSION['logged_in'] = true;
         header("Location: admin.php");
         exit;
@@ -219,6 +253,7 @@ if (!isset($_SESSION['logged_in'])) {
                 <div class="error"><i class="fas fa-exclamation-triangle"></i> Identifiants incorrects</div>
             <?php endif; ?>
             <form method="POST">
+                <?= infoCsrfField() ?>
                 <div class="input-group">
                     <i class="fas fa-user"></i>
                     <input type="text" name="username" placeholder="Nom d'utilisateur" required>
@@ -853,21 +888,21 @@ $count = count($messages);
             <li style="margin-bottom: 0.5rem;">
                 <a href="index.php">
                     <i class="fas fa-globe"></i>
-                    <span>🌐 Voir le site</span>
+                    <span> Voir le site</span>
                 </a>
             </li>
             <!-- Lien vers la boutique (à modifier) -->
             <li style="margin-bottom: 0.5rem;">
                 <a href="#" id="shopLink">
                     <i class="fas fa-store"></i>
-                    <span>🛒 Boutique</span>
+                    <span> Boutique</span>
                 </a>
             </li>
             <!-- Lien vers l'espace administrateur (à modifier) -->
             <li style="margin-bottom: 0.5rem;">
                 <a href="#" id="adminSpaceLink">
                     <i class="fas fa-user-shield"></i>
-                    <span>⚙️ Espace Admin</span>
+                    <span> Espace Admin</span>
                 </a>
             </li>
         </ul>
@@ -936,7 +971,11 @@ $count = count($messages);
             <?php endif; ?>
             <div class="message-footer">
                 <a href="mailto:<?= htmlspecialchars($msg['email']) ?>" class="btn-reply"><i class="fas fa-reply"></i> Répondre</a>
-                <a href="?delete=<?= $msg['id'] ?>" class="btn-delete" onclick="return confirm('Supprimer ce message ?')"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                <form method="POST" style="display:inline;" onsubmit="return confirm('Supprimer ce message ?')">
+                    <?= infoCsrfField() ?>
+                    <input type="hidden" name="delete" value="<?= (int) $msg['id'] ?>">
+                    <button type="submit" class="btn-delete"><i class="fas fa-trash-alt"></i> Supprimer</button>
+                </form>
             </div>
         </div>
         <?php endforeach; ?>

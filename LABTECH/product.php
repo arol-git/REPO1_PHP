@@ -1,14 +1,6 @@
 <?php
 require_once 'config.php';
 
-// Au début du fichier, après require_once 'config.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-echo '<!-- Debug: ID reçu = ' . ($_GET['id'] ?? 'aucun') . ' -->';
-
-
-
 // Récupérer l'ID du produit depuis l'URL
 $product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 

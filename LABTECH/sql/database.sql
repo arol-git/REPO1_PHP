@@ -1,73 +1,74 @@
--- Création de la base de données
-CRÉER UNE BASE DE DONNÉES SI NON EXISTE Ecommerce_db;
-UTILISEZ ecommerce_db;
+CREATE DATABASE IF NOT EXISTS ecommerce_db
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
 
--- Table des utilisateurs
-CRÉER UNE TABLE SI CE N'EST PAS EXISTER (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nom d'utilisateur VARCHAR(50) UNIQUE NOT NULL,
-    mot de passe VARCHAR(255) NOT NULL,
-    email VARCHAR(100),
-    role ENUM('admin', 'user') PAR DÉFAUT 'utilisateur',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+USE ecommerce_db;
 
--- Table des produits
-CRÉER UNE TABLE SI NON EXISTE DES produits (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(200) NOT NULL,
-    description TEXTE,
-    prix DECIMAL(10, 2) NOT NULL,
-    catégorie VARCHAR(50),
-    image VARCHAR(255),
-    stock IN PAR DÉFAUT 10,
-    En vedette BOOLEAN DEFAULT FALSE,
-    nouveau BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table des commandes
-CRÉER UNE TABLE SI CE N'EST PAS EXISTER DES Ordres (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    DÉCIMAL total(10, 2),
-    statut VARCHAR(50) PAR DÉFAUT 'en attente',
-    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) RÉFÉRENCES utilisateurs(id) SUR SUPPRIMER SET SET NULL
-);
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    image VARCHAR(255) DEFAULT 'default.jpg',
+    stock INT NOT NULL DEFAULT 10,
+    featured BOOLEAN NOT NULL DEFAULT FALSE,
+    `new` BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_products_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table des articles de commande
-CRÉER UNE TABLE SI CE N'EST PAS EXISTER order_items (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    order_id INT,
-    product_id INT,
-    quantité INT,
-    Prix DECIMAL(10, 2),
-    CLÉ ÉTRANGÈRE (order_id) RÉFÉRENCES ordres(id) SUR SUPPRIMER CASCADE,
-    CLÉ ÉTRANGÈRE (product_id) RÉFÉRENCES produits(id) SUR SUPPRIMER SET NULL
-);
+CREATE TABLE IF NOT EXISTS orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL,
+    total DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') NOT NULL DEFAULT 'pending',
+    payment_method VARCHAR(50) NOT NULL DEFAULT 'Paiement à la livraison',
+    shipping_info TEXT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_orders_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insertion admin par (mot de passe: admin123)
-INSÉRER VERS LES utilisateurs (nom d'utilisateur, mot de passe, email, rôle) VALEURS 
-('admin', '$2y$10$92IXUNkKO00OQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@datalab-tech.com', 'admin');
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    CONSTRAINT fk_order_items_order
+        FOREIGN KEY (order_id) REFERENCES orders(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_order_items_product
+        FOREIGN KEY (product_id) REFERENCES products(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO users (username, password, email, role)
+VALUES ('admin', '$2y$10$btuv9i10dH1pml4E3yd8LOzA8KRXy2O7DZl1KSSzbFnH4VQ54zGyO', 'admin@datalab-tech.com', 'admin')
+ON DUPLICATE KEY UPDATE
+    password = VALUES(password),
+    role = VALUES(role);
 
---Vérifier si la colonne créé_at existe
-ALTER TABLE AJOUTER LA COLONNE SI CE N'EST PAS EXISTER create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-
--- Met à jour les dates des produits existants (optionnel)
-UPDATE produits SET created_at = DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY) OÙ create_at EST NULL;
-
-
--- Insertion des produits de démonstration
-INSÉRER EN produits (nom, description, prix, catégorie, image, stock, en vedette, nouveau) VALEURS
-('Chargeur Rapide 65W GaN', 'Chargeur USB-C GaN 65W avec technologie de charge rapide, compatible avec tous les appareils. Charge complète en 30 minutes.', 29.99, 'chargeurs', 'charger1.jpg', 25, TRUE, TRUE),
-('Écouteurs TWS Pro', 'Écouteurs Bluetooth 5.3 avec réduction de bruit actif, autonomie 30h, étui de charge sans fil.', 49.99, 'ecouteurs', 'earbuds1.jpg', 15, TRUE, FAUX),
-('Câble USB-C Tressé 2m', 'Câble USB-C tressé résistant, charge rapide 100W, transfert de données jusqu'à 10Gbps.', 12.99, 'câbles', 'cable1.jpg', 50, FAUX, VRAI),
-('Power Bank 20000mAh', 'Batterie externe 20000mAh avec charge rapide 22.5W, double port USB, LED écran.', 39.99, 'powerbanks', 'powerbank1.jpg', 20, TRUE, FAUX),
-(«Support Magnétique MagSafe», «Support magnétique pour voiture, rotation 360°, charge sans fil 15W.», 19,99, «accessoires», «holder1.jpg», 30, FAUX, TRUE),
-('Chargeur Voiture 45W', 'Chargeur allumaille -cigare 45W avec 2 ports USB-C, compatible de charge rapide PD et QC.', 24.99, 'chargeurs', 'carcharger1.jpg', 18, FAUX, FAUX),
-('Casque Audio HD Pro', 'Casque circum-aural réduction de bruit active, batterie 40h, pliable pour voyage', 79.99, 'ecouteurs', 'headphone1.jpg', 12, TRUE, TRUE),
-('Station Charge 3-en-1', 'Station de charge sans fil pour iPhone, Apple Watch et AirPods. Charge rapide 15W.', 59.99, 'accessoires', 'chargestation.jpg', 8, TRUE, FAUX),
-('Enceinte Bluetooth Portable', 'Enceinte Bluetooth 20W, étanche IPX7, batterie 24h, son stéréo HD.', 89.99, 'ecouteurs', 'speaker1.jpg', 10, TRUE, TRUE),
-('Montre Connectée Ultra', 'Montre connecte avec GPS, suivi sportif, fréquentation cardiaque, batterie 7 jours', 129.99, 'accessoires', 'smartwatch1.jpg', 15, TRUE, FALSE);
+INSERT INTO products (name, description, price, category, image, stock, featured, `new`) VALUES
+('Chargeur Rapide 65W GaN', 'Chargeur USB-C GaN 65W avec technologie de charge rapide, compatible avec tous les appareils.', 29.99, 'chargeurs', 'chargeur1.jpg', 25, TRUE, TRUE),
+('Écouteurs TWS Pro', 'Écouteurs Bluetooth avec réduction de bruit actif et étui de charge.', 49.99, 'ecouteurs', 'earbuds1.jpg', 15, TRUE, FALSE),
+('Câble USB-C Tressé 2m', 'Câble USB-C tressé résistant avec charge rapide.', 12.99, 'cables', 'cable1.jpg', 50, FALSE, TRUE),
+('Power Bank 20000mAh', 'Batterie externe avec charge rapide et double port USB.', 39.99, 'powerbanks', 'powerbank1.jpg', 20, TRUE, FALSE),
+('Support Magnétique MagSafe', 'Support magnétique pour voiture avec rotation 360°.', 19.99, 'accessoires', 'stand.jpg', 30, FALSE, TRUE),
+('Chargeur Voiture 45W', 'Chargeur allume-cigare 45W avec ports USB-C.', 24.99, 'chargeurs', 'carcharger1.jpg', 18, FALSE, FALSE),
+('Casque Audio HD Pro', 'Casque circum-aural avec réduction de bruit active.', 79.99, 'ecouteurs', 'headphone1.jpg', 12, TRUE, TRUE),
+('Station Charge 3-en-1', 'Station de charge sans fil pour téléphone, montre et écouteurs.', 59.99, 'accessoires', 'chargingstation.jpg', 8, TRUE, FALSE),
+('Enceinte Bluetooth Portable', 'Enceinte Bluetooth étanche avec son stéréo.', 89.99, 'ecouteurs', 'speaker1.jpg', 10, TRUE, TRUE)
+ON DUPLICATE KEY UPDATE
+    name = VALUES(name);

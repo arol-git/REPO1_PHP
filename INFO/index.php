@@ -25,8 +25,8 @@
                         et performantes. Formé à DATALAB-TECH.
                     </p>
                     <div class="hero-buttons">
-                        <a href="#contact" class="btn-primary">📩 Me contacter</a>
-                        <a href="#projects" class="btn-primary">📁 Voir mes projets</a>
+                        <a href="#contact" class="btn-primary"> Me contacter</a>
+                        <a href="#projects" class="btn-primary"> Voir mes projets</a>
                     </div>
                     <div class="hero-stats">
                         <div class="stat">
@@ -227,7 +227,7 @@
                         <div class="project-image">
                             <div class="project-icon"><i class="fas fa-store"></i></div>
                             <div class="project-overlay">
-                                <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                                <a href="../LABTECH/index.php" class="project-link"><i class="fas fa-external-link-alt"></i></a>
                             </div>
                         </div>
                         <div class="project-info">

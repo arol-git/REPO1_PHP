@@ -14,7 +14,7 @@
     --border-color: rgba(255, 255, 255, 0.1);
     --border-hover: #00d4ff;
     
-    --accent-primary: #00d4ff;
+    --accent-primary: #00ff99;
     --accent-secondary: #7b2ff7;
     --accent-gradient: linear-gradient(135deg, #00d4ff, #7b2ff7);
     --accent-success: #00ff88;
@@ -364,7 +364,7 @@ body {
 .close-search {
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 5%;
     transform: translateY(-50%);
     background: none;
     border: none;
