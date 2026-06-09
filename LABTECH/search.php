@@ -268,7 +268,6 @@ if (isset($_GET['overlay']) && $_GET['overlay'] == '1') {
     </main>
 
     <?php require_once 'footer.php'; ?>
-    <script src="js/script.js"></script>
     <script>
         // ==================== RECHERCHE AVEC SUGGESTIONS ====================
         const searchInput = document.getElementById('mainSearchInput');
@@ -284,7 +283,7 @@ if (isset($_GET['overlay']) && $_GET['overlay'] == '1') {
             }
             
             try {
-                const response = await fetch(`/search_suggestions.php?q=${encodeURIComponent(query)}`);
+                const response = await fetch(`${window.APP_BASE}/search_suggestions.php?q=${encodeURIComponent(query)}`);
                 const suggestions = await response.json();
                 showSuggestions(suggestions);
             } catch(error) {

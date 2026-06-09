@@ -257,6 +257,5 @@ $inStockProducts = $pdo->query("SELECT * FROM products WHERE stock > 0 LIMIT 6")
     </main>
 
     <?php require_once 'footer.php'; ?>
-    <script src="js/script.js"></script>
 </body>
 </html>

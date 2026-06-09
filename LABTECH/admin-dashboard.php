@@ -52,6 +52,5 @@ $totalValue = $pdo->query("SELECT SUM(price * stock) FROM products")->fetchColum
     </main>
 
     <?php require_once 'footer.php'; ?>
-        <script src="js/script.js"></script>
 </body>
 </html>

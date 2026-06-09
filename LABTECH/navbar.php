@@ -85,3 +85,4 @@ $jsPath = ($basePath === '') ? '/js/script.js' : $basePath . '/js/script.js';
 <script>
     window.APP_BASE = '<?php echo $basePath === '' ? '' : $basePath; ?>';
 </script>
+<script src="<?php echo $jsPath; ?>?v=<?php echo filemtime(__DIR__ . '/js/script.js'); ?>" defer></script>

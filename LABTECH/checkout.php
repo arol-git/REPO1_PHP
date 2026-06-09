@@ -618,6 +618,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         restoreFormData();
         initCheckout();
     </script>
-    <script src="js/script.js"></script>
 </body>
 </html>

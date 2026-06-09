@@ -209,6 +209,5 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p>Pas un administrateur ? <a href="index.php">Retour à l'accueil</a></p>
         </div>
     </div>
-    <script src="js/script.js"></script>
 </body>
 </html>
